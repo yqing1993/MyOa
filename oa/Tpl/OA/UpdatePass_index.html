@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/order.css?_<?php echo time();?>" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>修改密码</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-lock"></i>
+				<span>修改密码</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs" style="display:none;">
+				    <li class="active">
+				        <a href="#Message" data-toggle="tab">短信管理</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane in active" id="Message">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+				    	</div>
+
+				    	<div class="tab-pane-content" style="padding:0 20px 20px 20px;">
+							
+				    		<div class="row">
+								<div class="col-xs-6">
+									<form class="form-horizontal">
+
+										<div class="form-group">
+											<label for="firstname" class="col-sm-2 control-label">原密码</label>
+											<div class="col-sm-4">
+												<input type="password" class="form-control" name="TopPassWord" placeholder="原密码">
+												<div class="bitian">*</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="firstname" class="col-sm-2 control-label">新密码</label>
+											<div class="col-sm-4">
+												<input type="password" class="form-control" name="NewPassWord" placeholder="新密码">
+												<div class="bitian">*</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="firstname" class="col-sm-2 control-label">重复新密码</label>
+											<div class="col-sm-4">
+												<input type="password" class="form-control" name="CFPassWord" placeholder="新密码">
+												<div class="bitian">*</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-4">
+												<button type="button" class="btn btn-success" id="sub">确定</button>
+											</div>
+										</div>
+										
+									</form>
+								</div>
+				    		</div>
+				    	</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript" src="/public/js/md5.js"></script>
+<script type="text/javascript">
+var Action = 'UpdatePass';
+$(document).ready(function(){
+	//$('#Message-myModal').modal('show');
+
+	/*打开modal窗口*/
+	$("#sub").click(function(){
+		var TopPassWord = $('[name="TopPassWord"]').val();
+		var NewPassWord = $('[name="NewPassWord"]').val();
+		var CFPassWord = $('[name="CFPassWord"]').val();
+		if(TopPassWord == ''){
+			toastr.warning("请输入原密码");
+			return false;
+		}
+
+		if(NewPassWord == ''){
+			toastr.warning("请输入新密码");
+			return false;
+		}
+		
+		if(CFPassWord == ''){
+			toastr.warning("请输入重复新密码");
+			return false;
+		}
+
+		if(NewPassWord != CFPassWord){
+			toastr.warning("重复密码有误");
+			return false;
+		}
+
+		var data = {};
+		data.TopPassWord = hex_md5(TopPassWord);
+		data.NewPassWord = hex_md5(NewPassWord);
+		data.CFPassWord = hex_md5(CFPassWord);
+		data.operate = 'UpdatePass';
+		post_data("/"+Action+"/Data/",data,'','');
+	});
+});
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='UpdatePass'){
+		if(msg.error == '1'){
+			$('input').val('');
+		}
+	}
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+</script>

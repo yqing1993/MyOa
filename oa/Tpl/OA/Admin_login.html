@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+    <script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/public/js/common.js"></script>
+    <script type="text/javascript" src="/public/js/laydate.js"></script>
+    <script type="text/javascript">
+        //var user_info = <?php echo (!empty($user_info)?json_encode($user_info):'""');?>;
+    </script>
+    <style>
+        html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+    </style>
+    <title>操作日志</title>
+</head>
+
+<body>
+
+<div class="tab">
+    <div class="tab-header-wrap">
+        <div class="tab-header clearfix">
+            <div class="title">
+                <i class="glyphicon glyphicon-text-background"></i>
+                <span>操作日志</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content-wrap">
+        <div class="tab-content-main">
+            <div class="main-content">
+
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#log" data-toggle="tab">操作日志</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane in active" id="log">
+                        <div class="tab-pane-title clearfix">
+                            <span></span>
+                            <?php
+							if(role('DelLog',4)){
+							echo '
+								<button class="btn btn-warning modal_sub" data-toggle="modal">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span>清除操作日志</span>
+                            </button>
+                            ';
+                            }
+                            ?>
+                        </div>
+
+                        <div class="tab-pane-content ">
+                            <table class="tab-table log-table table-interval-table">
+                                <thead>
+                                <tr>
+                                    <td><input type="checkbox" /></td>
+                                    <td>ID</td>
+                                    <td>日志类型</td>
+                                    <td>内容</td>
+                                    <td>操作人</td>
+                                    <td>操作时间</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="page-wrap clearfix">
+                            <div class="page">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="log-myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    清除操作日志
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-content">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">时间区间</label>
+                            <div class="col-sm-10">
+                                <div class="form-inline">
+                                    <div class="form-group" style="margin:0;">
+                                        <input type="text" class="form-control laydate-icon" name="StartTime" onclick="laydate({format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="开始时间">
+                                    </div>
+                                    <span> - </span>
+                                    <div class="form-group" style="margin:0;">
+                                        <input type="text" class="form-control laydate-icon" name="OverTime" onclick="laydate({format: 'YYYY-MM-DD hh:mm:ss'})" placeholder="结束时间">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                </button>
+                <button type="button" class="btn btn-warning">
+                    清除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+    var Action = 'Log';
+    $(document).ready(function(){
+        //$('#log-myModal').modal('show');
+
+        /*打开modal窗口*/
+        $(".modal_sub").click(function(){
+            var now_id = active();
+            $("#"+now_id+"-myModal").modal('show');
+        });
+
+        /*点击确定按钮*/
+        $(".modal .modal-footer button:last-child").click(function(){
+            var id = $(this).parents(".modal").attr("id");
+            Enter(id);
+        });
+
+        $("#myTab li").click(function(){
+            setTimeout(function(){
+                post_data("/"+Action+"/"+active()+"Page/",{"operate":'page'},'','0');
+            },50);
+        });
+    });
+
+
+    function Enter(id){
+
+        var data = m_r_val($("#"+id+" .form-horizontal"),'input[type="text"]','obj');
+
+
+        /*开始时间和结束时间转时间戳*/
+        data.StartTime = data.StartTime != ''?((Date.parse(new Date(data.StartTime)))/1000):"";
+        data.OverTime = data.OverTime != ''?((Date.parse(new Date(data.OverTime)))/1000):"";
+
+        if(data.StartTime != '' && data.OverTime != '' && data.StartTime > data.OverTime){
+            toastr.warning("开始时间不得小于结束时间");
+            return false;
+        }
+
+        if(data.StartTime == '' && data.OverTime == ''){
+            toastr.warning("至少填写一个时间点");
+            return false;
+        }
+        data.id = 'del';
+        data['operate'] = 'del';
+        if(confirm("确定清除吗？")){
+            post_data("/"+Action+"/"+active()+"Data/",data,'','');
+        }
+
+    }
+
+    /*返回modal里面的值*/
+    function m_r_val(id,type,fs){
+        if(fs=='obj'){
+            var data = {};
+            id.find(type).each(function(){
+                var name = $(this).attr("name");
+                if(name!=undefined && name!=''){
+                    val = $(this).val();
+                    data[name] = val;
+                }
+            });
+        }else if(fs=='arr'){
+            var data =  new Array();
+            var i = 0;
+            id.find(type).each(function(){
+                var name = $(this).attr("name");
+                if(name!=undefined && name!=''){
+                    var val = $(this).val();
+                    data[i] = [name,val];
+                    i++;
+                }
+            });
+        }
+
+        return data;
+    }
+
+
+    /*生成html*/
+    function list_html(data){
+        var html = '';
+        if(data['list']!=null && data['list'].length>0){
+            for(var i=0;i<data['list'].length;i++){
+                html += '<tr data-id="'+data['list'][i]['id']+'"><td><input type="checkbox" /></td><td>'+data['list'][i]['id']+'</td><td>'+data['list'][i]['type']+'</td><td>'+data['list'][i]['content']+'</td><td>'+data['list'][i]['username']+'</td><td>'+getDates(data['list'][i]['addtime'],1)+'</td></tr>';
+            }
+        }
+
+        append($("."+active()+"-table"),html);
+
+        $(".tab-pane.active").find('.page-wrap .page').html(data.page);
+        on();
+
+    }
+
+    /*添加内容到table里面*/
+    function append(dom,html){
+        if(html==''){
+            var td_num = dom.find("thead tr td").length;
+            html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+        }
+        dom.children("tbody").html(html);
+    }
+
+    function on(){
+        /*页数*/
+        $(".page a").off("click").click(function(e){
+            e.preventDefault();
+            var num = $(this).attr("href");
+            var arr = num.split("/");
+            num = arr.pop().replace(".html","");
+            if(num!='' && !isNaN(num)){
+                post_data('/'+Action+'/'+active()+'Page/p/'+num,{"operate":'page'},'','');
+                $(".tab-content-main").animate({scrollTop:0},300);
+            }
+        });
+    }
+
+    /*处理返回的msg数据*/
+    function msg_chuli(data,msg,dom){
+        chuli("");
+
+        if(msg['msg'] != undefined){
+            show_msg(msg);
+        }
+
+        if(data.operate=='page'){
+            list_html(msg);
+        }
+    }
+
+    /*ajax*/
+    function post_data(url,data,dom,time){
+        chuli("正在处理，请稍后……");
+        time = time!=''?time:500;
+
+        setTimeout(function(){
+            $.ajax({
+                url: '/oa.php'+url,
+                type:"post",
+                data: data,
+                dataType:'json',
+                success: function (msg) {
+                    msg_chuli(data,msg,dom);
+                },
+                error: function () {
+                    chuli("");
+                    toastr.error("提交数据，产生错误");
+                }
+            })
+        },time);
+    }
+
+
+
+    /*加载数据*/
+    post_data("/"+Action+"/"+active()+"Page/",{"operate":'page'},'','0');
+
+    /*toastr配置*/
+    //toastr.options = {positionClass: "toast-top-center"};
+
+    /*获得当前显示的tabID*/
+    function active(){
+        var id = $(".tab-pane.active").attr("id");
+        return id;
+    }
+
+    /*处理返回的data数据*/
+    function show_msg(data){
+        if(data.error=='0'){
+            /*红色*/
+            toastr.error(data.msg);
+        }else if(data.error=='1'){
+            /*绿色*/
+            toastr.success(data.msg);
+        }else if(data.error=='2'){
+            /*橘黄色*/
+            toastr.warning(data.msg);
+        }else if(data.error=='4'){
+            /*浅蓝色*/
+            toastr.info(data.msg);
+        }
+    }
+
+
+    /*计算tab-content距离高度*/
+    function js_height(){
+        var height = $(".tab .tab-header-wrap").height();
+        $(".tab .tab-content-wrap").css("padding-top",height+"px");
+    }
+    js_height();
+
+
+    /*首行冻结*/
+    $('.tab-content-main').scroll(function() {
+
+        var header_height = $(".tab .tab-header-wrap").height();
+        var thead_top = $('.tab-pane.active .tab-table tbody').prev().offset().top;
+        var scrollTop = $(this).scrollTop() || $(this).get(0).scrollTop;
+
+        var fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+        if(fixTable.length){
+            if(thead_top <= header_height){
+                fixTable.css('top',(scrollTop-(scrollTop+thead_top)+header_height)+'px');
+            }else{
+                fixTable.css('top','0px');
+            }
+        }else{
+            var table_html = $(".tab-pane.active .tab-table").attr("class");
+            var thead_html = $(".tab-pane.active .tab-table thead").html();
+            html = '<table class="'+table_html+' fixTable"><thead>'+thead_html+'</thead></table>';
+            $(".tab-pane.active .tab-pane-content .tab-table").before(html);
+            fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+        }
+    });
+
+</script>

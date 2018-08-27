@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name=renderer content=webkit>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/order.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<style>
+html, body {min-height: 100%;}
+body {
+	color:#999;
+	/*background: url('http://img.infinitynewtab.com/wallpaper/2709.jpg');*/
+	background-size:cover;
+}
+a {
+	color:#fff;
+}
+.login-panel{margin-top:150px;}
+.login-screen {
+	max-width:400px;
+	padding:0;
+	margin:100px auto 0 auto;
+
+}
+.login-screen .well {
+	border-radius: 3px;
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	background: rgba(255,255,255, 0.2);
+}
+.login-screen .copyright {
+	text-align: center;
+}
+@media(max-width:767px) {
+	.login-screen {
+		padding:0 20px;
+	}
+}
+.profile-img-card {
+	width: 100px;
+	height: 100px;
+	margin: 10px auto;
+	display: block;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+.profile-name-card {
+	text-align: center;
+}
+
+#login-form {
+	margin-top:20px;
+}
+#login-form .input-group {
+	margin-bottom:15px;
+}
+
+
+</style>
+<title>登录</title>
+</head>
+
+<body>
+
+<div class="container login">
+	<div class="login-wrapper">
+		<div class="login-screen">
+			<div class="well">
+				<div class="login-form">
+					<img id="profile-img" class="profile-img-card" src="/public/images/avatar.png">
+					<p id="profile-name" class="profile-name-card"></p>
+
+					<form action="" method="post" id="login-form" class="nice-validator n-default n-bootstrap" novalidate="novalidate">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-user"></span>&nbsp;用户名
+							</div>
+							<input type="text" class="form-control" placeholder="用户名或者姓名" name="username">
+						</div>
+
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-lock"></span>&nbsp;密&nbsp;&nbsp;&nbsp;码
+							</div>
+							<input type="password" class="form-control" placeholder="密码" name="password">
+						</div>
+
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-refresh"></span>&nbsp;验证码
+							</div>
+							<input type="text" class="form-control" placeholder="验证码" maxlength="4" name="verify">
+							<div class="input-group-addon" style="padding:0;">
+								<img id="verify" style="cursor: pointer;" height="32" title="换一张" src='/oa.php/Public/verify/' />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button type="button" id="submit" class="btn btn-success btn-lg btn-block">登 录</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+<!-- <object id="locator" style="display:none;" classid="CLSID:76A64158-CB41-11D1-8B02-00600806D9B6" VIEWASTEXT></object>   
+<object id="foo" style="display:none;" classid="CLSID:75718C9A-F029-11d1-A1AC-00C04FB6C223"></object> -->
+
+</body>
+</html>
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/md5.js"></script>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("body").css({
+		"background":"url('http://img.infinitynewtab.com/wallpaper/"+rd(1,4050)+".jpg')",
+		"background-size":"cover"
+	});
+	function rd(n,m){
+		var c = m-n+1;
+		return Math.floor(Math.random() * c + n);
+	}
+
+	/*开始登录*/
+	$("#submit").click(function(){
+		login();
+	});
+
+	$("#verify").click(function(){
+		var timestamp = Date.parse(new Date());
+		$(this).attr("src",'/oa.php/Public/verify/?_'+timestamp);
+	});
+});
+
+
+/*回车键按下事件*/
+$(document).keyup(function (e) {
+	if(e.keyCode == 13) {
+		login();
+	}  
+});  
+
+function login(){
+	var user = $('input[name="username"]').val();
+	if(user==''){
+		toastr.error("用户名不能为空");
+		return false;
+	}
+
+	var password = $('input[name="password"]').val();
+	if(password==''){
+		toastr.error("密码不能为空");
+		return false;
+	}
+	password = hex_md5(password);
+
+	var verify = $('input[name="verify"]').val();
+	if(verify == ''){
+		toastr.error("验证码不能为空");
+		return false;
+	}else if(verify.length != 4 ){
+		toastr.error("验证码输入有误");
+		return false;
+	}
+
+	var mac = '';
+	// if(mac == 2){
+	// 	mac = getMac();
+	// 	if(mac=='' || mac=="undefined"){
+	// 		toastr.error("请使用IE浏览器，或者开启兼容模式");
+	// 		return false;
+	// 	}
+	// 	mac = mac.replace(/[:]/g,"-");
+	// 	mac = hex_md5(mac);
+	// }
+
+	// var time = Date.parse(new Date());
+	// time = time / 1000;
+	// time = hex_md5(time);
+
+	chuli("正在登录，请稍后……");
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php/admin/logins/',
+			type:"post",
+			data: {"user":user,"password":password,"verify":verify,"mac":mac},
+			dataType:'json',
+			success: function (msg) {
+				chuli("");
+
+				if(msg['error']=='10'){
+					toastr.success("正在跳转，请稍后…","登陆成功");
+					setTimeout(function(){
+						var fu = $('#parent', window.parent.document).html();
+						if(fu==''){
+							parent.Reload();
+						}else{
+							location.href = "/oa.php/";
+						}
+					},1000);
+				}else if(msg['error'] == '1' || msg['error'] == '2'){
+					//login(msg['error']);
+				}else if(msg['error'] == '3'){
+					toastr.error(msg['msg']);
+					$('input[name="verify"]').val("");
+					$("#verify").attr("src",'/oa.php/Public/verify/');
+				}else{
+					toastr.error(msg['msg']);
+				}
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},500);
+}
+
+/*toastr配置*/
+toastr.options = {positionClass: "toast-top-center"};
+
+/*获取MAC地址*/
+// var MACAddr;
+// function init(){
+// 	var service = locator.ConnectServer();
+// 	service.Security_.ImpersonationLevel=3;
+// 	service.InstancesOfAsync(foo,'Win32_NetworkAdapterConfiguration');
+// }
+// init();
+
+// function getMac(){
+// 	return unescape(MACAddr);
+// }
+</script>
+<!-- <script event="OnObjectReady(objObject,objAsyncContext)" for="foo">
+if(objObject.IPEnabled != null && objObject.IPEnabled != "undefined" && objObject.IPEnabled == true) {
+	if(objObject.MACAddress != null && objObject.MACAddress != "undefined" && objObject.DNSServerSearchOrder!=null)
+		MACAddr = objObject.MACAddress;
+	if(objObject.IPEnabled && objObject.IPAddress(0) != null && objObject.IPAddress(0) != "undefined" && objObject.DNSServerSearchOrder!=null)
+		IPAddr = objObject.IPAddress(0);
+	if(objObject.DNSHostName != null && objObject.DNSHostName != "undefined")
+		sDNSName = objObject.DNSHostName;
+}
+</script> -->

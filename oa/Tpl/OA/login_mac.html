@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name=renderer content=ie-comp>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body>
+<object id="locator" style="display:none;" classid="CLSID:76A64158-CB41-11D1-8B02-00600806D9B6" VIEWASTEXT></object>   
+<object id="foo" style="display:none;" classid="CLSID:75718C9A-F029-11d1-A1AC-00C04FB6C223"></object>
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/md5.js"></script>
+<script type="text/javascript">
+
+//判断访问终端
+var browser={
+	versions:function(){
+		var u = navigator.userAgent, app = navigator.appVersion;
+		return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+			iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+			weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+			qq: u.match(/\sQQ/i) == " qq" //是否QQ
+		};
+	}(),
+	language:(navigator.browserLanguage || navigator.language).toLowerCase()
+}
+
+if(browser.versions.trident){
+	setTimeout(function(){
+		var mac = getMac();
+		if(mac == null || mac == 'undefined'){
+			alert("ERROR:MAC NULL");
+			window.close();
+		}else{
+			mac = mac.replace(/[:]/g,"-");
+			mac = hex_md5(mac);
+			$.ajax({
+				url: '/oa.php/admin/login/',
+				type:"post",
+				data: {"mac":mac},
+				dataType:'html',
+				success: function (msg) {
+					$("body").html(msg);
+				},
+				error: function () {
+					alert("ERROR");
+				}
+			});
+		}
+	},500);
+}else{
+	alert("ERROR:JS NOT IE");
+	window.close();
+}
+
+/*获取MAC地址*/
+var MACAddr;
+function init(){
+	var service = locator.ConnectServer();
+	service.Security_.ImpersonationLevel=3;
+	service.InstancesOfAsync(foo,'Win32_NetworkAdapterConfiguration');
+}
+init();
+
+function getMac(){
+	return unescape(MACAddr);
+}
+</script>
+<script event="OnObjectReady(objObject,objAsyncContext)" for="foo">
+if(objObject.IPEnabled != null && objObject.IPEnabled != "undefined" && objObject.IPEnabled == true) {
+	if(objObject.MACAddress != null && objObject.MACAddress != "undefined" && objObject.DNSServerSearchOrder!=null)
+		MACAddr = objObject.MACAddress;
+	if(objObject.IPEnabled && objObject.IPAddress(0) != null && objObject.IPAddress(0) != "undefined" && objObject.DNSServerSearchOrder!=null)
+		IPAddr = objObject.IPAddress(0);
+	if(objObject.DNSHostName != null && objObject.DNSHostName != "undefined")
+		sDNSName = objObject.DNSHostName;
+}
+</script>
+</body>
+</html>

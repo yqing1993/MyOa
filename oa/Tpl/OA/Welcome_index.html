@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/order.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+//var user_info = <?php echo (!empty($user_info)?json_encode($user_info):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>欢迎</title>
+</head>
+
+<body>
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<h1>欢迎 Welcome <small> 系统实测中……如有问题，可联系技术部</small></h1>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+//判断访问终端
+var browser={
+	versions:function(){
+		var u = navigator.userAgent, app = navigator.appVersion;
+		return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+			iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+			weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+			qq: u.match(/\sQQ/i) == " qq" //是否QQ
+		};
+	}(),
+	language:(navigator.browserLanguage || navigator.language).toLowerCase()
+}
+
+toastr.options = {positionClass: "toast-top-center"};
+if(browser.versions.trident){
+	toastr.warning("浏览器切换成高速模式，体验更佳");
+}
+
+
+</script>

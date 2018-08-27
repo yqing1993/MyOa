@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+/*自定义css*/
+body {padding:3%;}
+
+.daylog_title {font-size:24px;padding-bottom:20px;}
+
+.daylog_text .title,.daylog_wj .title{padding:20px 0 5px 0;}
+.daylog_text textarea{border-radius: 5px;border: solid 1px #e6e5e6;width: 97%;height: 75px;padding: 3px 5px;resize: none;}
+
+.daylog_wj .uploadForm .file {float: left;position: relative;display: inline-block;background: #D0EEFF;border: 1px solid #99D3F5;border-radius: 4px;padding: 4px 12px;overflow: hidden;color: #1E88C7;text-decoration: none;text-indent: 0;line-height: 20px;}
+.daylog_wj .uploadForm .file input {position: absolute;font-size: 100px;right: 0;top: 0;opacity: 0;}
+.daylog_wj .uploadForm .file:hover {background: #AADFFD;border-color: #78C3F3;color: #004974;text-decoration:none;}
+
+.daylog_wj .uploadForm .wjm {float: left;line-height:30px;margin-left:10px;}
+
+.daylog_wj .uploadForm .button{width: 292px;height: 40px;display: block;border: none;border-radius: 5px;background-color: #189ffe;color: #FFFFFF;margin:20px auto 5px auto;font-size: 14px;font-weight: 700;}
+
+.daylog_list {margin-top:30px;}
+.daylog_list .daylog_list_bt {font-size:14px;margin:20px 0 10px 0;}
+
+.daylog_list .daylog_list_title {border-top: 1px solid #e4e4e4;border-bottom: 1px solid #e4e4e4;height:40px;line-height:40px;margin:0;}
+.daylog_list .daylog_list_title li {font-size:14px;}
+
+
+.daylog_list .title {float:left;width:30%;text-align:center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.daylog_list .text {float:left;width:17.5%;text-align:center;cursor:default;}
+.daylog_list .people {float:left;width:17.5%;text-align:center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.daylog_list .time {float:left;width:17.5%;text-align:center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.daylog_list .operate {float:left;width:17.5%;text-align:center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+
+.daylog_list .daylog_list_info li {border-bottom: 1px dashed #e4e4e4;}
+.daylog_list .daylog_list_info li div {height:40px;line-height:40px;}
+
+.daylog_list .daylog_list_info li .text {position:relative;}
+.daylog_list .daylog_list_info li .text i {display:block;position:absolute;top:30px;left:50%;margin-left:-150px;padding:10px;background:#fff;line-height:1.5;text-align:left;border:1px solid #e4e4e4;width:300px;min-height:150px;display:none;z-index:99;}
+
+.daylog_list .daylog_list_info li .operate a{ cursor:pointer;}
+
+.page {text-align:right;margin-top:20px;padding-bottom:50px;}
+.page a{display:inline-block;padding:5px 8px;border:1px solid #e4e4e4;background:#fff;margin-right:5px;}
+.page .current {display:inline-block;padding:5px 8px;}
+

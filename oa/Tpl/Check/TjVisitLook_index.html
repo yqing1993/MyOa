@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate/laydate.js"></script>
+<script type="text/javascript">
+var AllPlatform = <?php echo (!empty($AllPlatform)?json_encode($AllPlatform):'""');?>;
+var citys = <?php echo (!empty($citys)?json_encode($citys):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+
+<title>访问统计</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-signal"></i>
+				<span>访问统计</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs">
+				    <li class="active">
+				        <a href="#KeyWords" data-toggle="tab">关键字统计</a>
+				    </li>
+				    <li>
+				        <a href="#Web" data-toggle="tab">着陆页统计</a>
+				    </li>
+				    <li>
+				        <a href="#VisitTime" data-toggle="tab">实时记录</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane in active" id="KeyWords">
+				    	<div class="tab-pane-title clearfix">
+							<div class="form-inline search-box">
+								<div class="form-group">
+									<label>时间：</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前30天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前7天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="昨天">
+										</span>
+										<input type="text" style="width:200px;" class="layui-input form-control" name="DayTime" placeholder=" - ">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="今天">
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>平台：</label>
+									<select class="form-control" name="platformID">
+										<option>未选择</option>
+										<foreach name="AllPlatform" key="key" item="vo">
+											<option value="{$key}">{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table KeyWords-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>ID</td>
+										<td>关键字</td>
+										<td>访问次数</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+					</div>
+
+					<div class="tab-pane" id="Web">
+				    	<div class="tab-pane-title clearfix">
+							<div class="form-inline search-box">
+								<div class="form-group">
+									<label>时间：</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前30天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前7天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="昨天">
+										</span>
+										<input type="text" style="width:200px;" class="layui-input form-control" name="DayTime" placeholder=" - ">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="今天">
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>平台：</label>
+									<select class="form-control" name="platformID">
+										<option>未选择</option>
+										<foreach name="AllPlatform" key="key" item="vo">
+											<option value="{$key}">{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table Web-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>平台</td>
+										<td>页面地址</td>
+										<td>访问次数</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+					</div>
+
+					<div class="tab-pane" id="VisitTime">
+				    	<div class="tab-pane-title clearfix">
+							<div class="form-inline search-box">
+								<div class="form-group">
+									<label>时间：</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前30天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="前7天">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="昨天">
+										</span>
+										<input type="text" style="width:200px;" class="layui-input form-control" name="DayTime" placeholder=" - ">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="今天">
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label>平台：</label>
+									<select class="form-control" name="platformID">
+										<option>未选择</option>
+										<foreach name="AllPlatform" key="key" item="vo">
+											<option value="{$key}">{$vo}</option>
+										</foreach>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>关键字：</label>
+									<input type="text" class="form-control" name="keywords" placeholder="可用逗号分隔">
+								</div>
+
+								<div class="form-group">
+									<label>停留时长：</label>
+									<select class="form-control" name="LookTime">
+										<option>未选择</option>
+										<option value="desc">降序</option>
+										<option value="asc">升序</option>
+									</select>
+								</div>
+								<button type="submit" class="btn btn-default search-button" style="float:none;">搜索</button>
+							</div>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table VisitTime-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>ID</td>
+										<td>页面地址</td>
+										<td>关键字</td>
+										<td>上一个关键字</td>
+										<td>来源</td>
+										<td>访问时间</td>
+										<td>复制</td>
+										<td>停留时长</td>
+										<td>浏览高度</td>
+										<td>地域</td>
+										<td>其他信息</td>
+										<td>ip</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+var Action = 'Check/TjVisitLook';
+$(document).ready(function(){
+	$("#myTab li").click(function(){
+		setTimeout(function(){
+			search_data('');
+		},50);
+	});
+});
+
+
+/*生成html*/
+function list_html(data){
+	var html = '';
+	if(data['list']!=null && data['list'].length>0){
+		var now_active = active();
+		if(now_active == 'KeyWords'){
+			for(var i=0;i<data['list'].length;i++){
+				html += '<tr data-id="'+data['list'][i]['KeyWordsID']+'"><td><input type="checkbox" /></td><td>'+data['list'][i]['KeyWordsID']+'</td><td>'+data['list'][i]['KeyWords']+'</td><td>'+data['list'][i]['num']+'</td></tr>';
+			}
+		}else if(now_active == 'Web'){
+			for(var i=0;i<data['list'].length;i++){
+				html += '<tr><td><input type="checkbox" /></td><td>'+PlatformIcon(data['list'][i]['platformID'])+'</td><td><a href="'+data['list'][i]['url']+'" target="_blank">'+data['list'][i]['url']+'</a></td><td>'+data['list'][i]['num']+'</td></tr>';
+			}
+		}else if(now_active == 'VisitTime'){
+			for(var i=0;i<data['list'].length;i++){
+				var city_str = (data['list'][i]['provice'] != '0' ? citys[data['list'][i]['provice']][0] + " - " + (data['list'][i]['city'] != '0' ? citys[data['list'][i]['provice']][1][data['list'][i]['city']] : '未知') : '未知');
+
+				html += '<tr><td><input type="checkbox" /></td><td>'+data['list'][i]['id']+'</td><td><a href="'+data['list'][i]['NowUrl']+'" target="_blank">'+data['list'][i]['NowUrl']+'</a></td><td>'+data['list'][i]['KeyWords']+'</td><td>'+data['list'][i]['TopKeyWords']+'</td><td><a href="'+data['list'][i]['FromUrl']+'" target="_blank">'+PlatformIcon(data['list'][i]['platformID'])+'</a></td><td>'+getDates(data['list'][i]['addtime'],1)+'</td><td>'+data['list'][i]['Copy'].join("<br />")+'</td><td>'+(data['list'][i]['LookTime'] != '0' ? data['list'][i]['LookTime'] + ' 秒' : '未知' )+'</td><td>'+(data['list'][i]['LookHeight'] != '0' ? data['list'][i]['LookHeight'] + ' 屏' : '未知' )+'</td><td>'+city_str+'</td><td>'+data['list'][i]['Other']+'</td><td>'+numberToIp(data['list'][i]['ip'])+'</td></tr>';
+			}
+		}
+	}
+
+	append($("."+active()+"-table"),html);
+
+	$(".tab-pane.active").find('.page-wrap .page').html(data.page);
+	on();
+
+}
+
+
+/*添加内容到table里面*/
+function append(dom,html){
+	if(html==''){
+		var td_num = dom.find("thead tr td").length;
+		html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+	}
+	dom.children("tbody").html(html);
+}
+
+function on(){
+	/*页数*/
+	$(".page a").off("click").click(function(e){
+		e.preventDefault();
+		var num = $(this).attr("href");
+		var arr = num.split("/");
+		num = arr.pop().replace(".html","");
+		if(num!='' && !isNaN(num)){
+			search_data(num);
+			$(".tab-content-main").animate({scrollTop:0},300);
+		}
+	});
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='page'){
+		list_html(msg);
+	}
+}
+
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+/*加载数据*/
+search_data('');
+
+$('.search-box').find('select').change(function(){
+	search_data('');
+});
+
+$('.search-button').click(function(){
+	search_data('');
+});
+
+/*数字转ip*/
+function numberToIp(number) {      
+    var ip = "";  
+    if(number <= 0) {  
+        return ip;  
+    }  
+    var ip3 = (number << 0 ) >>> 24;  
+    var ip2 = (number << 8 ) >>> 24;  
+    var ip1 = (number << 16) >>> 24;  
+    var ip0 = (number << 24) >>> 24  
+      
+    ip += ip3 + "." + ip2 + "." + ip1 + "." + ip0;  
+      
+    return ip;     
+} 
+
+/*搜索*/
+function search_data(page){
+	var data = {};
+	var error = 0;
+	$(".tab-pane.active").find('.search-box').find('input[type="text"],select').each(function(){
+		var name = $(this).attr("name");
+		if(name != null && name != ''){
+			var tagName = $(this)[0].tagName;
+			var val = $(this).val();
+			val = (tagName == 'SELECT' && val == '未选择')?"":val;
+			if(val != ''){
+				if(name == 'DayTime'){
+					var day_arr = val.split(' - ');
+					if(day_arr.length>1){
+						data.StartTime = Date.parse(new Date(day_arr[0].replace(/\-/g,"/"))) / 1000;
+						day_arr[1] = (day_arr[1].replace(/\-/g,"/")) + (' 23:59:59');
+						data.EndTime = Date.parse(new Date(day_arr[1].replace(/\-/g,"/"))) / 1000;
+						if(data.StartTime > data.EndTime){
+							error = 1;
+							toastr.error('结束时间不能小于开始时间');
+							return false;
+						}
+					}
+
+				}else{
+					data[name] = val;
+				}
+			}
+		}
+	});
+
+	if(error == 0){
+		data.operate = 'page';
+		page = (page == null || page == '') ? 1 : page;
+		post_data('/'+Action+'/'+active()+'Page/p/'+page,data,'','0');
+	}
+}
+
+/*时间处理*/
+$('[name="DayTime-button"]').click(function(){
+	var str = $(this).val();
+	var topdays = new Date();
+	if(str == '昨天'){
+		topdays.setDate(new Date().getDate() - 1);
+		var nowdays = new Date().setDate(new Date().getDate() - 1);
+	}else if(str == '前7天'){
+		topdays.setDate(new Date().getDate() - 7);
+		var nowdays = new Date().setDate(new Date().getDate() - 1);
+	}else if(str == '前30天'){
+		topdays.setDate(new Date().getDate() - 30);
+		var nowdays = new Date().setDate(new Date().getDate() - 1);
+	}else if(str == '今天'){
+		var nowdays =  topdays;
+	}
+
+	var firstDay = getDates(topdays/1000,2);
+	var lastDay = getDates((nowdays/1000),2);
+
+	$(".tab-pane.active").find('.search-box input[name="DayTime"]').val(firstDay + " - " + lastDay);
+	search_data();
+});
+$('[name="DayTime"]').each(function(i){
+	$(this).attr('id','DayTime'+i);
+	var nowdays = new Date();
+	var max = nowdays.getFullYear() + "-" + (nowdays.getMonth()+1) + "-" + nowdays.getDate();
+	laydate.render({
+		elem: '#DayTime'+i,
+		range: true,
+		max: max,
+		done: function(value, date, endDate){
+			search_data();
+		}
+	});
+});
+
+/*获得当前显示的tabID*/
+function active(){
+	var id = $(".tab-pane.active").attr("id");
+	return id;
+}
+
+/*平台标签*/
+function PlatformIcon(id){
+	var str = ''
+	if(id == '0'){
+		str = 'default';
+	}else if(id == '1'){
+		str = 'primary';
+	}else if(id == '2'){
+		str = 'info';
+	}else if(id == '3'){
+		str = 'warning';
+	}else{
+		str = 'danger';
+	}
+	var html = '<span class="label label-'+str+'">'+((AllPlatform[id] != null && AllPlatform[id] != '') ? AllPlatform[id] : '不详')+'</span>';
+	return html;
+}
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+/*首行冻结*/
+$('.tab-content-main').scroll(function() {
+
+	var header_height = $(".tab .tab-header-wrap").height();
+	var thead_top = $('.tab-pane.active .tab-table tbody').prev().offset().top;
+	var scrollTop = $(this).scrollTop() || $(this).get(0).scrollTop;
+	
+	var fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	if(fixTable.length){
+		if(thead_top <= header_height){
+			fixTable.css('top',(scrollTop-(scrollTop+thead_top)+header_height)+'px');
+		}else{
+			fixTable.css('top','0px');
+		}
+	}else{
+		var table_html = $(".tab-pane.active .tab-table").attr("class");
+		var thead_html = $(".tab-pane.active .tab-table thead").html();
+		html = '<table class="'+table_html+' fixTable"><thead>'+thead_html+'</thead></table>';
+		$(".tab-pane.active .tab-pane-content .tab-table").before(html);
+		fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	}
+});
+
+</script>

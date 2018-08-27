@@ -1,0 +1,485 @@
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name=renderer content=webkit>
+<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css?<?php echo time();?>" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+//var user_info = <?php echo (!empty($user_info)?json_encode($user_info):'""');?>;
+</script>
+<style>
+html,body {height:100%;}
+</style>
+<title>竞价系统</title>
+</head>
+
+<body>
+
+<div class="wrap order">
+    <div class="header left-right">
+        <div class="left">
+            <div class="logo left-width">
+                <img src="/public/images/logo.png" />
+            </div>
+        </div>
+        <div class="rights">
+            <div class="info clearfix">
+                <div class="system pull-left">
+                    <a href="/oa.php/">OA系统</a>
+                    <a class="selected" href="/oa.php/Check/">竞价</a>
+
+
+                    <?php
+                          if(role('KeBs',1)){
+                          echo'
+                          <a href="/oa.php/Keywords/">关键词</a>
+                          ';
+                          }
+                    ?>
+
+                    <a href="/oa.php/Love/">爱心</a>
+
+                </div>
+                <div class="admin">你好 {$user_info.username}<a href="/oa.php/admin/loginout"><i class="glyphicon glyphicon-off"></i> 退出</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-box">
+
+            <div class="left">
+                <div class="nav-box">
+                    <div class="nav">
+                        <ul class="nav-ul">
+                            <li class="nav-hidden">
+                                    <i class="glyphicon glyphicon-option-horizontal center-block" style="width:15px"></i>
+                            </li>
+                            <li class="nav-title">后台管理</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-flag"></i>
+                                    <span>项目微信管理</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('ProjectManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/ProjectManage/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-flag"></i>
+                                            <span>项目管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('WechatManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/WechatManage/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            <span>微信号管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-send"></i>
+                                    <span>平台户管理</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('PlatformManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/PlatformManage/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-send"></i>
+                                            <span>平台管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('HuManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/HuManage/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>户管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-check"></i>
+                                    <span>推广着陆页</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('ZhaoWeb',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/ZhaoWeb/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-file"></i>
+                                            <span>着陆页管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('TuiWeb',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/TuiWeb/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-share"></i>
+                                            <span>推广管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                
+                                ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-title">数据录入</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    <span>竞价数据录入</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('RecordXiao',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Check/TongJi/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-list-alt"></i>
+                                        <span>统计代码</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                if(role('RecordXiao',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/RecordXiao/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-jpy"></i>
+                                            <span>消费录入</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('RecordYuHu',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/RecordYuHu/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-scissors"></i>
+                                            <span>预算录入</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('RecordChong',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/RecordChong/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-credit-card"></i>
+                                            <span>充值返点录入</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                ?>
+
+                                </ul>
+                            </li>
+                            <li class="nav-title">数据预览</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    <span>竞价数据预览</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('LIDProject',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDProject/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-flag"></i>
+                                            <span>项目数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('LIDHu',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDHu/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>户数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('LIDTui',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDTui/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-share"></i>
+                                            <span>推广数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('LIDWechat',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDWechat/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            <span>微信数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                
+                                if(role('LIDZhao',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDZhao/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-file"></i>
+                                            <span>着陆页数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-link"></i>
+                                    <span>访问数据预览</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('LXiangXi',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LXiangXi/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-menu-hamburger"></i>
+                                            <span>详细数据</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('LXiaoGuo',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LXiaoGuo/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span>效果分析</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('LHeXin',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LHeXin/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                            <span>核心分析</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                ?>
+
+                                </ul>
+                            </li>
+
+
+                            <li class="nav-title hidden">访问数据预览</li>
+                            <li class="nav-li hidden">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-time"></i>
+                                    <span>着陆页实时统计</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+                                <ul class="nav-two-ul">
+                                <?php
+
+                                if(role('TjVisitLook',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/TjVisitLook/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-signal"></i>
+                                            <span>访问统计</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('TjCopyLook',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/TjCopyLook/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-star"></i>
+                                            <span>复制统计</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                ?>
+
+                                </ul>
+                            </li>
+
+                            <?php
+                            if(role('TongjiSet',1)){
+                                echo '
+                            <li class="nav-li hidden">
+                                <a href="/oa.php/Check/TongjiSet/index/" target="mainiframe">
+                                    <i class="glyphicon glyphicon-wrench"></i>
+                                    <span>统计代码设置</span>
+                                </a>
+                            </li>
+                                ';
+                            }
+
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rights">
+                <iframe align="middle" src="/oa.php/Welcome/index/" allowtransparency="true" frameborder="0" id="mainframe" name="mainiframe" scrolling="true" width="100%" height="100%"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+<div id="parent"></div>
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('a').each(function(){
+        var str = $(this).children('span').text();
+        if(str != ''){
+            $(this).attr({"data-toggle":"tooltip","data-animation":"false","data-trigger":"hover","data-placement":"right","title":str});
+        }
+    });
+	$('[data-toggle="tooltip"]').tooltip();
+
+    /*折叠隐藏左边*/
+    var LeftHidden = getCookie('LeftHidden');
+    if(LeftHidden == '1'){
+         $(".order").addClass('left-hidden');
+    }
+    $('.nav-hidden').click(function(){
+        $(".order").toggleClass('left-hidden');
+
+        LeftHidden = $(".order").hasClass('left-hidden') ? '1' : '0';
+        setCookie('LeftHidden',LeftHidden,'');
+    });
+
+    /*展开*/
+    $(".nav-li:not(.not-nav-li) > a").click(function(){
+        $(this).parent().children(".nav-two-ul").toggle(200);
+        $(this).children("i:last-child").toggleClass("glyphicon-menu-up");
+    });
+
+    $(".nav-two-ul li a").click(function(){
+        $(".nav-li").removeClass("active");
+        $(this).parent().parent().parent().addClass("active");
+
+        $(".nav-two-ul li a").removeClass("active");
+        $(this).addClass("active");
+    });
+
+    $(".nav-two-ul").each(function(){
+        var html = $(this).html();
+        if(html.indexOf("a")<0){
+            $(this).parent().hide();
+        }
+    });
+
+    $('.nav-title').each(function(){
+        if($(this).next().is(':hidden')){
+            $(this).hide();
+        }
+    });
+});
+
+function Reload(){
+    location.reload();
+    return true;
+}
+
+/*轮询*/
+
+
+
+</script>

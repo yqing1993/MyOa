@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+//var AllDepartment = <?php echo (!empty($AllDepartment)?json_encode($AllDepartment):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>部门管理</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-th-list"></i>
+				<span>部门管理</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs">
+				    <li class="active">
+				        <a href="#Message" data-toggle="tab">部门管理</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane in active" id="Message">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+							<button style="display:none;" class="button-green border-box modal_sub" data-toggle="modal">
+								<i class="glyphicon glyphicon-plus"></i>
+								<span>添加部门</span>
+							</button>
+				    	</div>
+
+				    	<div class="tab-pane-content" style="padding:0 20px 20px 20px;">
+							
+				    		<h3>组织架构</h3>
+				    		<div class="organize" style="width:400px;">
+								<ul style="display: none;">
+									<li>
+										<div class="rows">
+											<div class="select">
+												<i class="glyphicon glyphicon-th-list"></i>
+												<span class="title">技术部</span>
+												<i class="up-down glyphicon glyphicon-menu-up"></i>
+											</div>
+											<div class="hides">
+												<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+												<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+												<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+											</div>
+										</div>
+										<ul>
+											<li>
+												<div class="rows">
+													<div class="select">
+														<i class="glyphicon glyphicon-th-list"></i>
+														<span class="title">技术部</span>
+														<i class="up-down glyphicon glyphicon-menu-up"></i>
+													</div>
+													<div class="hides">
+														<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+														<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+														<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+													</div>
+												</div>
+												<ul>
+													<li>
+														<div class="rows">
+															<div class="select">
+																<i class="glyphicon glyphicon-th-list"></i>
+																<span class="title">技术一部</span>
+																<i class="up-down glyphicon glyphicon-menu-up"></i>
+															</div>
+															<div class="hides">
+																<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+																<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+																<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+															</div>
+														</div>
+														<ul>
+															<li>
+																<div class="rows">
+																	<div class="select">
+																		<i class="glyphicon glyphicon-user"></i>
+																		<span class="title">秦红旗</span>
+																	</div>
+																	<div class="hides">
+																		<i class="edit glyphicon glyphicon-cog" title="编辑员工"></i>
+																	</div>
+																</div>
+															</li>
+															<li>
+																<div class="rows">
+																	<div class="select">
+																		<i class="glyphicon glyphicon-user"></i>
+																		<span class="title">秦红旗</span>
+																	</div>
+																	<div class="hides">
+																		<i class="edit glyphicon glyphicon-cog" title="编辑员工"></i>
+																	</div>
+																</div>
+															</li>
+															<li>
+																<div class="rows">
+																	<div class="select">
+																		<i class="glyphicon glyphicon-user"></i>
+																		<span class="title">秦红旗</span>
+																	</div>
+																	<div class="hides">
+																		<i class="edit glyphicon glyphicon-cog" title="编辑员工"></i>
+																	</div>
+																</div>
+															</li>
+															<li>
+																<div class="rows">
+																	<div class="select">
+																		<i class="glyphicon glyphicon-user"></i>
+																		<span class="title">秦红旗</span>
+																	</div>
+																	<div class="hides">
+																		<i class="edit glyphicon glyphicon-cog" title="编辑员工"></i>
+																	</div>
+																</div>
+															</li>
+
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<div class="rows">
+													<div class="select">
+														<i class="glyphicon glyphicon-th-list"></i>
+														<span class="title">技术部</span>
+														<i class="up-down glyphicon glyphicon-menu-up"></i>
+													</div>
+													<div class="hides">
+														<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+														<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+														<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="rows">
+													<div class="select">
+														<i class="glyphicon glyphicon-th-list"></i>
+														<span class="title">技术部</span>
+														<i class="up-down glyphicon glyphicon-menu-up"></i>
+													</div>
+													<div class="hides">
+														<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+														<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+														<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="rows">
+													<div class="select">
+														<i class="glyphicon glyphicon-th-list"></i>
+														<span class="title">技术部</span>
+														<i class="up-down glyphicon glyphicon-menu-up"></i>
+													</div>
+													<div class="hides">
+														<i class="edit glyphicon glyphicon-cog" title="编辑部门"></i>
+														<i class="add glyphicon glyphicon-plus" title="添加子部门"></i>
+														<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="rows">
+													<div class="select">
+														<i class="glyphicon glyphicon-user"></i>
+														<span class="title">秦红旗</span>
+													</div>
+													<div class="hides">
+														<i class="edit glyphicon glyphicon-cog" title="编辑员工"></i>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<ul>
+										</ul>
+									</li>
+								</ul>
+				    		</div>
+
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="add-myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					添加子部门
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">部门名称</label>
+							<div class="col-sm-6">
+								<input type="hidden" name="id" value="new" />
+								<input type="hidden" name="parentID" value="" />
+								<input type="text" class="form-control" name="DepartmentName" placeholder="部门名称">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group" style="display:none;">
+							<label class="col-sm-2 control-label">查看码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="LookCode" placeholder="查看码">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">排序</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="rank" placeholder="排序">
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="Department-UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					编辑部门
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">部门名称</label>
+							<div class="col-sm-6">
+								<input type="hidden" name="id" value="" />
+								<input type="hidden" name="parentID" value="" />
+								<input type="text" class="form-control" name="DepartmentName" placeholder="部门名称">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group" style="display:none;">
+							<label class="col-sm-2 control-label">查看码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="LookCode" placeholder="查看码">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">排序</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="rank" placeholder="排序">
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="User-UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					编辑员工
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">姓名</label>
+							<div class="col-sm-6">
+								<input type="hidden" name="id" value="" />
+								<input type="text" class="form-control" name="username" placeholder="姓名" disabled="disabled">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属部门</label>
+							<div class="col-sm-6">
+								<select class="form-control" name="DepartmentID">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">职位</label>
+							<div class="col-sm-10">
+								<foreach name="Duty" key="key" item="vo">
+									<label class="radio-inline">
+										<input type="radio" name="Duty" value="{$key}" <if condition="$key eq 'yg'">checked="checked"</if>> <span>{$vo}</span>
+									</label>
+								</foreach>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+var Action = 'Department';
+$(document).ready(function(){
+	//$('#User-UpdateModal').modal('show');
+
+	/*打开modal窗口*/
+	$(".modal_sub").click(function(){
+		var now_id = active();
+		$("#"+now_id+"-myModal").modal('show');
+	});
+
+    /*点击确定按钮*/
+	$(".modal .modal-footer button:last-child").click(function(){
+		var id = $(this).parents(".modal").attr("id");
+		Enter(id);
+	});
+
+
+});
+
+function Enter(id){
+
+	var data = m_r_val($("#"+id+" .form-horizontal"),'input[type="hidden"],input[type="text"],select','obj');
+
+	if(data.id == ''){
+		toastr.error("出错，ID为空，请联系技术");
+		return false;
+	}
+
+	if(id == 'User-UpdateModal'){
+		if(data.DepartmentID == null || data.DepartmentID == ''){
+			toastr.error("请选择所属部门");
+			return false;
+		}
+
+		data.Duty = $("#"+id+" .form-horizontal").find('input[name="Duty"]:checked').val();
+		if(data.Duty == null || data.Duty == ''){
+			toastr.error("请选择职位");
+			return false;
+		}
+
+		data['operate'] = 'UpdateUser';
+	}else{
+		if(data.parentID == ''){
+			toastr.warning("父部门ID获取失败，请联系技术");
+			return false;
+		}
+
+		if(data.DepartmentName == ''){
+			toastr.warning("部门名称不能为空");
+			return false;
+		}
+
+		if(data.rank != ''){
+			if(isNaN(data.rank)){
+				toastr.warning("排序数字必须是数字");
+				return false;
+			}
+		}
+
+		data['operate'] = 'UpdateAdd';
+	}
+	post_data("/"+Action+"/Data/",data,'','0');
+
+}
+
+/*获取已选*/
+function checkbox(dom){
+	var che_arr = new Array();
+	var che_i = 0;
+	dom.find('input[type="checkbox"]').each(function(){
+		if($(this).prop('checked')){
+			che_arr[che_i] = $(this).val();
+			che_i++;
+		}
+	});
+	return che_arr;
+}
+
+/*返回modal里面的值*/
+function m_r_val(id,type,fs){
+	if(fs=='obj'){
+		var data = {};
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				val = $(this).val();
+				data[name] = val;
+			}
+		});
+	}else if(fs=='arr'){
+		var data =  new Array();
+		var i = 0;
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				var val = $(this).val();
+				data[i] = [name,val];
+				i++;
+			}
+		});
+	}
+
+	return data;
+}
+
+/*生成html*/
+function list_html(data){
+	var html = '';
+	if(data['list']!=null && data['list'].length>0){
+		var now_active = active();
+		if(now_active == 'Message'){
+			for(var i=0;i<data['list'].length;i++){
+				html += '<tr data-id="'+data['list'][i]['id']+'"><td><input type="checkbox" /></td><td>'+data['list'][i]['id']+'</td><td>'+data['list'][i]['rank']+'</td><td>'+get_product_name(data['list'][i]['ProductID'])+'</td><td>'+get_OrderStatus_name(data['list'][i]['OrderStatus'])+'</td><td>'+data['list'][i]['MessageName']+'</td><td>'+data['list'][i]['content']+'</td><td>'+data['list'][i]['number']+'</td><td>'+getDates(data['list'][i]['addtime'],1)+'</td><td class="status">'+(data['list'][i]['status']=='0'?'正常':'停用')+'</td><td><button class="btn btn-info btn-xs"><i class="glyphicon '+(data['list'][i]['status']=='0'?'glyphicon-stop':'glyphicon-play')+'"></i><span>'+(data['list'][i]['status']=='0'?'停用':'启用')+'</span></button><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-cog"></i><span>编辑</span></button><button class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i><span>删除</span></button></td></tr>';
+			}
+		}
+	}
+
+	append($("."+active()+"-table"),html);
+
+	$(".tab-pane.active").find('.page-wrap .page').html(data.page);
+	on();
+
+}
+
+/*添加内容到table里面*/
+function append(dom,html){
+	if(html==''){
+		var td_num = dom.find("thead tr td").length;
+		html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+	}
+	dom.children("tbody").html(html);
+}
+
+function on(){
+	/*页数*/
+	$(".page a").off("click").click(function(e){
+		e.preventDefault();
+		var num = $(this).attr("href");
+		var arr = num.split("/");
+		num = arr.pop().replace(".html","");
+		if(num!='' && !isNaN(num)){
+			post_data('/'+Action+'/'+active()+'Page/p/'+num,{"operate":'page'},'','');
+			$(".tab-content-main").animate({scrollTop:0},300);
+		}
+	});
+
+	/*td按钮*/
+	$(".tab-table tbody tr td button").off("click").click(function(){
+		var button = $(this).text();
+		var data = {};
+		data.id = $(this).parents("tr").attr("data-id");
+		if(data.id!=''){
+			if(button=='启用' || button=='停用'){
+				var status = button=='启用'?'0':'1';
+				data.operate = 'status';
+				data.database = 'message';
+				data['status'] = status;
+				post_data('/'+Action+'/'+active()+'Data/',data,$(this),'');
+			}else if(button=='编辑'){
+				data.operate = 'Get';
+				post_data('/'+Action+'/'+active()+'Data/',data,$(this),'0');
+			}else if(button=='删除'){
+				var now_active = active();
+				if(confirm("确定删除吗？")){
+					data.operate = 'del';
+					post_data('/'+Action+'/'+active()+'Data/',data,$(this),'');
+				}else{
+					return false;
+				}
+			}else if(button=='查看券'){
+				data.operate = 'Look';
+				post_data('/'+Action+'/'+active()+'Data/',data,$(this),'0');
+			}
+		}else{
+			toastr.error("获取的ID为空，无法操作，请联系技术人员");
+		}
+	});
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='UpdateAdd'){
+		if(msg['error']=='1'){
+			$('.modal').modal('hide');
+			$('#add-myModal').find('input[type="text"]').val("");
+			setTimeout(function(){
+				post_organize('/Department/organize/',{"operate":"get"},$(".organize"),'0');
+				//window.location.reload();
+			},1000);
+		}
+	}else if(data.operate=='Get'){
+		if(msg['error']=='1'){
+			var dom = $("#Department-UpdateModal");
+
+			dom.find('.form-horizontal').find('input[type="text"],input[type="hidden"]').each(function(){
+				var name = $(this).attr("name");
+				if(name != undefined){
+					$(this).val(updata_get_data(name,msg));
+				}
+			});
+
+			dom.modal('show');
+		}
+	}else if(data.operate=='GetUser'){
+		if(msg['error']=='1'){
+			var dom = $("#User-UpdateModal");
+
+			/*写入userid 和 username*/
+			dom.find('.form-horizontal').find('input[name="id"]').val(msg['UserInfo']['userid']);
+			dom.find('.form-horizontal').find('input[name="username"]').val(msg['UserInfo']['username']);
+
+			/*选定所属职位*/
+			dom.find('.form-horizontal').find('input[name="Duty"][value="yg"]').prop('checked',true);
+			if(msg['UserInfo']['Duty']!=null && msg['UserInfo']['Duty']!=''){
+				dom.find('.form-horizontal').find('input[name="Duty"][value="'+msg['UserInfo']['Duty']+'"]').prop('checked',true);
+			}
+
+			/*生成部门select*/
+			var html = organize_select_html(msg['AllDepartment'],'');
+			dom.find('select[name="DepartmentID"]').html(html);
+
+			/*当前部门选定*/
+			dom.find('select[name="DepartmentID"]').val(msg['UserInfo']['DepartmentID']);
+
+			dom.modal('show');
+		}
+	}else if(data.operate=='del'){
+		if(msg['error']=='1'){
+			setTimeout(function(){
+				post_organize('/Department/organize/',{"operate":"get"},$(".organize"),'0');
+				//window.location.reload();
+			},1000);
+		}
+	}else if(data.operate=='UpdateUser'){
+		if(msg['error']=='1'){
+			$('.modal').modal('hide');
+			setTimeout(function(){
+				post_organize('/Department/organize/',{"operate":"get"},$(".organize"),'0');
+				//window.location.reload();
+			},1000);
+		}
+	}
+}
+
+/*编辑model框获取数据*/
+function updata_get_data(name,data){
+	var val = '';
+	if(data!=null && data){
+		for(var i in data){
+			if(i == name){
+				return data[i];
+			}
+		}
+	}
+	return val;
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*加载数据*/
+post_organize('/Department/organize/',{"operate":"get"},$(".organize"),'0');
+
+/*toastr配置*/
+//toastr.options = {positionClass: "toast-top-center"};
+
+
+/*根据产品ID得到产品名称*/
+function get_product_name(id){
+	var str = '未知';
+	if(AllProduct!=null && AllProduct.length>0){
+		for(var i=0;i<AllProduct.length;i++){
+			if(AllProduct[i]['id'] == id){
+				str = AllProduct[i]['ProductName'];
+				return str;
+			}
+		}
+	}
+	return str;
+}
+
+/*根据订单状态key得到状态名称*/
+function get_OrderStatus_name(key){
+	var str = '未知';
+	for(var i in OrderStatus){
+		for(var ii in OrderStatus[i]){
+			if(ii == key){
+				str = OrderStatus[i][ii];
+				return str;
+			}
+		}
+	}
+	return str;
+}
+
+
+function organize_on(){
+	/*展开和隐藏*/
+	$(".organize .select").click(function(){
+		$(this).parent().parent().children("ul").toggle(200);
+		$(this).children("i.up-down").toggleClass("glyphicon-menu-up").toggleClass("glyphicon-menu-down");
+	});
+
+	/*编辑按钮点击事件*/
+	$(".organize .edit").click(function(){
+		var title = $(this).attr("title");
+		if(title != ''){
+			if(title == '编辑部门'){
+				var data = {};
+				data.id = $(this).parents("li").attr("data-DepartmentID");
+				if(data.id!=null && data.id!=''){
+					data.operate = 'Get';
+					post_data('/'+Action+'/Data/',data,$(this),'0');
+				}else{
+					toastr.error("部门ID获取失败，请联系技术");
+				}
+
+			}else if(title == '编辑员工'){
+				var data = {};
+				data.id = $(this).parents("li").attr("data-userid");
+				if(data.id!=null && data.id!=''){
+					data.operate = 'GetUser';
+					post_data('/'+Action+'/Data/',data,$(this),'0');
+				}else{
+					toastr.error("员工ID获取失败，请联系技术");
+				}
+			}
+		}else{
+			toastr.error("不知道您要干啥");
+		}
+	});
+
+	/*添加部门按钮*/
+	$(".organize .add").click(function(){
+		var DepartmentID = $(this).parents("li").attr("data-DepartmentID");
+		if(DepartmentID != null && DepartmentID != ''){
+			$('#add-myModal').find('input[name="parentID"]').val(DepartmentID);
+			$('#add-myModal').modal('show');
+		}else{
+			toastr.error("部门ID获取失败，请刷新页面重试");
+		}
+	});
+
+	/*删除部门按钮*/
+	$(".organize .del").click(function(){
+		var DepartmentID = $(this).parents("li").attr("data-DepartmentID");
+		if(DepartmentID != null && DepartmentID != ''){
+			if(confirm("确定删除该部门吗？")){
+				var data = {};
+				data.id = DepartmentID;
+				data.operate = 'del';
+				post_data('/'+Action+'/Data/',data,$(this),'0');
+			}
+		}else{
+			toastr.error("部门ID获取失败，请刷新页面重试");
+		}
+	});
+}
+
+function organize_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='get'){
+		if(msg['error'] == '1'){
+			organize_html(msg['data'],dom);
+		}
+	}else if(data.operate=='UpdateAdd'){
+
+	}
+
+}
+
+/*生成组织架构html*/
+function organize_html(data,dom){
+	var html = ''
+	html = organize_bumen_html(data,null);
+	dom.html(html);
+	organize_on();
+}
+
+/*生成部门html*/
+function organize_bumen_html(data,udata){
+	var html = '';
+
+	if(data != null && data.length>0){
+		for(var i=0;i<data.length;i++){
+
+			var zi_organize_html = organize_bumen_html(data[i]['zi'],data[i]['user']);
+
+			html += '<li data-DepartmentID="'+data[i]['id']+'"><div class="rows clearfix"><div class="select"><i class="glyphicon glyphicon-folder-open"></i><span class="title">'+data[i]['DepartmentName']+(data[i]['user']!=null?' ('+data[i]['user'].length+'人)':"")+'</span><i class="up-down glyphicon glyphicon-menu-up"'+(zi_organize_html==''?'style="display:none;"':"")+'></i></div><div class="hides"><i class="edit glyphicon glyphicon-cog" title="编辑部门"></i><i class="add glyphicon glyphicon-plus" title="添加子部门"></i>'+(data[i]['id']!='1'?'<i class="del glyphicon glyphicon-trash" title="删除该部门"></i>':"")+'</div></div>'+zi_organize_html+'</li>';
+
+		}
+	}
+
+	if(udata != null && udata.length>0){
+		for(var u=0;u<udata.length;u++){
+			html += '<li data-userid="'+udata[u]['userid']+'"><div class="rows clearfix user"><div class="select"><i class="glyphicon glyphicon-user"></i><span class="title">'+udata[u]['username']+'</span>'+DutyStyle(udata[u]['Duty'],udata[u]['DutyName'])+'</div><div class="hides"><i class="edit glyphicon glyphicon-cog" title="编辑员工"></i></div></div></li>';
+		}
+	}
+
+	html = html!=''?'<ul>'+html+'</ul>':"";
+
+	return html;
+}
+
+/*组长和主管加样式*/
+function DutyStyle(key,value){
+	var html = '';
+	if(key=='zg' || key=='zz'){
+		html = '<button type="button" class="btn btn-xs btn-'+(key=='zg'?'warning':'default')+'">'+value+'</button>';
+	}
+	return html;
+}
+
+function organize_select_html(data,s){
+	var html = '';
+	if(data != null && data.length>0){
+		s = s == ''?'&nbsp':(s + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		for(var i=0;i<data.length;i++){
+
+			var zi_html = organize_select_html(data[i]['zi'],s);
+			html += '<option value="'+data[i]['id']+'">'+s+'┣ '+data[i]['DepartmentName']+'</option>'+zi_html;
+
+		}
+	}
+	return html;
+}
+
+/*请求组织架构*/
+function post_organize(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				organize_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*获得当前显示的tabID*/
+function active(){
+	var id = $(".tab-pane.active").attr("id");
+	return id;
+}
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+</script>

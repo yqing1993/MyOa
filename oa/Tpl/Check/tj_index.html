@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<title>测试</title>
+</head>
+
+<body id="body">
+<div>
+	<span class="WechatID">1weiweia</span><br/>
+	<span class="WechatID">2weiweia</span><br/>
+	<span class="WechatID">3weiweia</span><br/>
+	<span class="WechatID">4weiweia</span><br/>
+	<span class="WechatID">5weiweia</span><br/>
+	<span class="WechatID">6weiweia</span><br/>
+	<span class="WechatID">7weiweia</span><br/>
+	<span class="WechatID">8weiweia</span><br/>
+</div>
+乔布斯掌权时代的iPhone以精湛的做工受到广泛的关注，也受到了大量的果粉追捧。iPhone4S的黄金尺寸设计，再到iPhone5s的巅峰状态，但是iPhone6的横空出世似乎打破了苹果公司在工艺方面的追求。虽然iPhone6
+	<span class="WechatID">9weiweia</span>及其iPhone6 Plus的销量比前
+	<span class="WechatID">10weiweia</span>几代产品都要高 （原因受安卓大屏冲击的影响，果粉对大屏手机的欲望愈加的浓烈），但是收到广泛吐槽也是最多的。大白条，尤其是突出的摄像头，乔布斯知道估计都能从坟里跳出来！ 不喜欢的iPhone6的果粉可以等等了，iPho
+	<span class="WechatID">11weiweia</span>ne7马上就要来临了，这是国外设计师设计出的一部iPhone7的概念图，这部iPhone7不仅做工精湛， 而且消除了打白条和涉嫌头突出问题，更重要的是采用了iPhone4的双面玻璃设计，边角做出了圆润设计，不仅时尚，而且商务气息十足， 适合追求时尚的年轻人和
+	<span class="WechatID">12weiweia</span>商务人士使用，受用人群更广泛了。
+	<span class="WechatID">13weiweia</span>
+	<span class="WechatID">14weiweia</span>
+</body>
+<script type="text/javascript">
+(function() {
+	function tj(url,data){
+		$.ajax({
+			url: '/oa.php/Check/tj/'+url,
+			type:"post",
+			data:data,
+			dataType : 'jsonp',
+			jsonp:"jsoncallback",
+			success: function (msg) {
+				alert(msg['msg']);
+				if(msg['error'] == '0'){
+					copy(msg['id']);
+				}
+				
+				//$('body').html(msg['msg']);
+			},
+			error: function () {
+			}
+		});
+	}
+
+	var data = {};
+
+	var FromUrl = '{$url}';
+	FromUrl = FromUrl.replace(/^1/,'');
+	data.FromUrl = escape(FromUrl);
+
+	data.FromUrl = escape(window.parent.document.referrer);
+	data.NowUrl = escape(window.parent.location);
+
+	data.screen = screen.width+"*"+screen.height;
+	data.addtime = Date.parse(new Date()) / 1000;
+
+	tj('add',data);
+
+	function copy(id){
+		document.addEventListener('copy', function(event){
+			try {
+				if(window.getSelection) {
+					var selecter = window.getSelection();
+					copys(selecter,id)
+				}
+			} catch (e) {}
+		});
+
+		if (navigator.userAgent.indexOf('UCBrowser') > -1) {
+
+			setInterval(function() {
+				if(window.getSelection) {
+					var selecter = window.getSelection();
+					copys(selecter,id)
+				}
+			}, 1500)
+		}
+	}
+	
+	function copys(selecter,id){
+		    alert(selectStr);
+		var selectStr = selecter.toString();
+
+		var start = selecter.anchorOffset;
+		var end = selecter.focusOffset;
+
+		var selectNum = 0;
+		if (selectStr.trim != "") {
+			var label = 'span';
+		    var rang = selecter.getRangeAt(0);
+		    var temp = $("<"+label+">" + selectStr + "</"+label+">");
+		    rang.surroundContents(temp[0]);
+
+		    var content = $('body').html();
+		    reg = eval("/("+selectStr+"|\<"+label+"\>"+selectStr+"\<[/]"+label+"\>)/g");
+		    var pipei = content.match(reg);
+		    for(var i=0;i<pipei.length;i++){
+		    	if(pipei[i].indexOf(label)>=0){
+		    		selectNum = (i+1);
+		    	}
+		    }
+
+
+
+
+
+
+
+		    //temp.replaceWith(selectStr);
+		}
+		if(selectStr != "" ) {
+			var copy_data = {};
+			copy_data.id = id;
+			copy_data.str = selectStr;
+			copy_data.num = selectNum;
+			copy_data.times = (Date.parse(new Date()) / 1000) - data.addtime;
+			copy_data.copytime = (Date.parse(new Date()) / 1000);
+			tj('copy',copy_data);
+		}
+	}
+
+
+})();
+
+document.addEventListener('copy', function(event){
+	try {
+		if(window.getSelection) {
+			var selecter = window.getSelection();
+			copys(selecter)
+		}
+	} catch (e) {}
+});
+
+
+	
+function copys(selecter){
+	var selectStr = selecter.toString();
+
+	var start = selecter.anchorOffset;
+	var end = selecter.focusOffset;
+
+	var selectNum = 0;
+	if (selectStr.trim != "") {
+		var label = 'span';
+	    var rang = selecter.getRangeAt(0);
+	    var temp = $("<"+label+">" + selectStr + "</"+label+">");
+	    rang.surroundContents(temp[0]);
+
+	    var content = $('body').html();
+	    reg = eval("/("+selectStr+"|\<"+label+"\>"+selectStr+"\<[/]"+label+"\>)/g");
+	    var pipei = content.match(reg);
+	    for(var i=0;i<pipei.length;i++){
+	    	if(pipei[i].indexOf(label)>=0){
+	    		selectNum = (i+1);
+	    	}
+	    }
+
+	    //alert(start + " - " + end);
+
+	 //    var range = selecter.createTextRange();
+		// range.collapse(true);
+  //       range.moveStart('character', start);
+  //       range.moveEnd('character', end);
+		// range.select();
+        var selection = window.getSelection();
+        var range = document.createRange();
+       	range.selectNodeContents($('span')[0]);
+        selecter.removeAllRanges();
+       	selecter.addRange(range);
+
+
+
+
+
+
+	    //temp.replaceWith(selectStr);
+	}
+}
+
+
+
+
+
+
+
+
+		// document.addEventListener('copy', function(event){
+		// 	try {
+
+		// 		 if (window.getSelection) {
+		// 	        var selecter = window.getSelection();
+		// 	        var selectStr = selecter.toString();
+		// 	        if (selectStr.trim != "") {
+		// 	        	var label = 'span';
+		// 	            var rang = selecter.getRangeAt(0);
+		// 	            var temp = $("<"+label+">" + selectStr + "</"+label+">");
+		// 	            rang.surroundContents(temp[0]);
+
+		// 	            var content = $('body').html();
+		// 	           	console.log(content);
+		// 	            reg = eval("/("+selectStr+"|\<"+label+"\>"+selectStr+"\<[/]"+label+"\>)/g");
+		// 	            var pipei = content.match(reg);
+		// 	            for(var i=0;i<pipei.length;i++){
+		// 	            	if(pipei[i].indexOf(label)>=0){
+		// 	            		alert(i+1);
+		// 	            	}
+		// 	            }
+		// 	            temp.replaceWith(selectStr);
+		// 	        }
+		// 	    }
+		// 		// var str = window.getSelection(0).toString();
+		// 		// window.getSelection().pasteHTML("<b>" + str + "</b>");
+		// 		// if(str != ''){
+		// 		// 	var dom = window.getSelection().focusNode.parentNode;
+
+		// 		// 	var start = window.getSelection().anchorOffset; 
+		// 		// 	var end = window.getSelection().focusOffset; 
+
+		// 		// 	var tempStr1 = textObj.innerHTML.substring(0,start); 
+		// 		// 	var tempStr2 = textObj.innerHTML.substring(end);
+
+		// 		// 	var content = $(dom)[0].outerHTML;
+
+		// 		// 	document.getElementById("content").innerHTML = tempStr1 + selectedText + tempStr2 ;
+		// 		// }
+				
+
+		// 		// var dom_text = dom.outerHTML;
+		// 		// var content = $('body')[0].outerHTML;
+
+		// 		// var reg = eval("/("+str+"|"+dom_text+")/");
+		// 		// var pipei = content.match(reg);
+		// 		// alert(pipei.indexOf(dom_text));
+
+
+		// 		// console.log(reg);
+
+
+		// 		//var start = window.getSelection().anchorOffset;
+		// 		// var word =  window.getSelection(0).toString();
+		// 		// alert(word);
+		// 		// var str = window.getSelection(0).toString();
+		// 		// alert(str);
+				
+		// 		// alert(dom.tagName);
+
+
+		// 		//alert(start);
+		// 		//console.log($content);
+		// 	} catch (e) {}
+		// });
+
+// newimage = new Image;
+// newimage.src = "http://fit.nyjie.net/order.php/ou/ge/?url=1"+escape(window.parent.document.referrer);
+
+
+// var js_url = "";
+// var kw_uId = "";
+// var kw_ref = "";
+// var kw_url = "";
+// var is_get = "";
+// var is_copy = "";
+// var kw_gurl = "";
+// var copy_content = "";
+// try {
+// 	js_url = document.getElementById("kw_tongji").src
+// } catch (e) {}
+// try {
+// 	kw_uId = getURLParam('sign', js_url)
+// } catch (e) {}
+// try {
+// 	kw_url = window.parent.location
+// } catch (e) {}
+// try {
+// 	kw_ref = window.parent.document.referrer
+// } catch (e) {}
+// tj(1);
+// document.addEventListener('copy', function(event) {
+// 	try {
+// 		var str = window.getSelection(0).toString();
+// 		if (str != "") {
+// 			copy_content = str;
+// 			setTimeout(tj(2), 1)
+// 		}
+// 	} catch (e) {}
+// });
+// if (navigator.userAgent.indexOf('UCBrowser') > -1) {
+// 	setInterval(function() {
+// 		if (window.getSelection(0).toString() != "") {
+// 			if (is_copy != "ok") {
+// 				copy_content = window.getSelection(0).toString();
+// 				is_copy = "ok";
+// 				setTimeout(tj(2), 1)
+// 			}
+// 		}
+// 	}, 1500)
+// }
+// function tj(type) {
+// 	if (type == 1) {
+// 		if (is_get != "ok") {
+// 			kw_gurl = "http://tj.shangdee.com/addurl.jpg?kw_sign_id=" + kw_uId + "&kw_url=" + escape(kw_url) + "&kw_ref=" + escape(kw_ref) + "&v=" + unique();
+// 			setTimeout('is_get="ok";kw_img = new Image;kw_img.src=kw_gurl;', 1)
+// 		}
+// 	} else if (type == 2) {
+// 		kw_gurl = "http://tj.shangdee.com/addcopy.jpg?kw_sign_id=" + kw_uId + "&kw_url=" + escape(kw_url) + "&kw_ref=" + escape(kw_ref) + "&c=" + copy_content + "&v=" + unique();
+// 		setTimeout('kw_img = new Image;kw_img.src=kw_gurl;', 1)
+// 	}
+// }
+// function getURLParam(strParamName, url) {
+// 	var strReturn = "";
+// 	var strHref = url.toLowerCase();
+// 	if (strHref.indexOf("?") > -1) {
+// 		var strQueryString = strHref.substr(strHref.indexOf("?") + 1).toLowerCase();
+// 		var aQueryString = strQueryString.split("&");
+// 		for (var iParam = 0; iParam < aQueryString.length; iParam++) {
+// 			if (aQueryString[iParam].indexOf(strParamName.toLowerCase() + "=") > -1) {
+// 				var aParam = aQueryString[iParam].split("=");
+// 				strReturn = aParam[1];
+// 				break
+// 			}
+// 		}
+// 	}
+// 	return strReturn
+// }
+// function unique() {
+// 	var time = (new Date()).getTime() + '-',
+// 		i = 0;
+// 	return time + (i++)
+// }
+
+
+</script>
+</html>

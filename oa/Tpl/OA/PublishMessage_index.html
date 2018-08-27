@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+    <script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/public/js/common.js"></script>
+    <script type="text/javascript" src="/public/js/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        var Action = 'OA/{$ActionName}';
+    </script>
+    <style>
+        html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+    </style>
+    <title>发布消息</title>
+</head>
+
+<body>
+
+<div class="container" style="margin-top: 10px">
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label>消息名称</label>
+            <input type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+            <label for="form-group">消息正文</label>
+            <textarea style="height:580px" id="ueditor" class="content" name="content"></textarea>
+            <script type="text/javascript" src="/public/ueditor/ueditor.config.js"></script>
+            <script type="text/javascript" src="/public/ueditor/ueditor.all.js"></script>
+            <script type="text/javascript">
+                var ue = UE.getEditor('ueditor',{initialFrameWidth: null});
+            </script>
+        </div>
+
+        <div class="checkbox">
+            <foreach name="dapts" item="vo">
+            <label>
+                <input type="checkbox" name="DepartmentID" value="{$vo.id}">{$vo.DepartmentName}  &nbsp;&nbsp;
+            </label>
+            </foreach>
+        </div>
+    </form>
+    <div style="text-align: center">
+        <p></p>
+        <button id="submit" type="botton" class="btn btn-success">提交</button>
+    </div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //$('#ProjectManage-myModal').modal('show');
+
+        /*打开modal窗口*/
+        $(".modal_sub").click(function(){
+            var now_id = active();
+            $("#"+now_id+"-myModal").modal('show');
+        });
+
+        /*点击确定按钮*/
+        $("#submit").click(function(){
+            var dom = $(this).parents().parents();
+            Enter(dom);
+        });
+
+    });
+
+    function Enter(dom){
+        dom = dom.find('.form-horizontal');
+
+        var data = m_r_val(dom,'input[type="hidden"],input[type="text"],textarea,select','obj');
+
+        /*获取多选*/
+        var dapts = checkbox($(".form-horizontal").find('input[name="DepartmentID"]'));
+        //data.dapts = dapts.length > 0 ?JSON.stringify(dapts) : '';
+        data.dapts = dapts.length > 0 ?dapts : '';
+        console.log(data);
+        if(data.title == ''){
+            toastr.error("消息名称不能为空！");
+            return false;
+        }
+        if(data.dapts == ''){
+            toastr.error("请选择部门！");
+            return false;
+        }
+        data['operate'] = 'UpdateAdd';
+        console.log(data);
+        post_data("/"+Action+"/Data/",data,'','0');
+
+    }
+
+    function checkbox(dom){
+        var che_arr = new Array();
+        var che_i = 0;
+        dom.each(function(){
+            if($(this).prop('checked')){
+                che_arr[che_i] = $(this).val();
+                if(che_arr[che_i] == 'all'){
+                    return false;
+                }
+                che_i++;
+            }
+        });
+        return che_arr;
+    }
+
+    /*返回modal里面的值*/
+    function m_r_val(id,type,fs){
+        if(fs=='obj'){
+            var data = {};
+            id.find(type).each(function(){
+                var name = $(this).attr("name");
+                if(name!=undefined && name!=''){
+                    val = $(this).val();
+                    data[name] = val;
+                }
+            });
+        }else if(fs=='arr'){
+            var data =  new Array();
+            var i = 0;
+            id.find(type).each(function(){
+                var name = $(this).attr("name");
+                if(name!=undefined && name!=''){
+                    var val = $(this).val();
+                    data[i] = [name,val];
+                    i++;
+                }
+            });
+        }
+
+        return data;
+    }
+    /*处理返回的msg数据*/
+    function msg_chuli(data,msg,dom){
+        console.log(data);
+        console.log(msg);
+        chuli("");
+
+        if(msg['msg'] != undefined){
+            show_msg(msg);
+        }
+
+        if(data.operate=='page'){
+            list_html(msg);
+        }else if(data.operate=='UpdateAdd'){
+            if(msg['error']=='1'){
+                $('.modal').modal('hide');
+                setTimeout(function(){
+                    /*获得当前页数*/
+                    var page = $(".tab-pane.active .page-wrap .page .current").text();
+                    page = (page != null && page != '' && !isNaN(page)) ? page : '1';
+                    search_data({'page':page});
+
+                    $(".tab-content-main").animate({scrollTop:0},300);
+                },1000);
+            }
+        }else if(data.operate=='status'){
+            if(msg['error']=='1'){
+                var html = dom.html();
+                if(msg.status=='0'){
+                    html = html.replace("启用","停用");
+                    html = html.replace("glyphicon-play","glyphicon-stop");
+                }else{
+                    html = html.replace("停用","启用");
+                    html = html.replace("glyphicon-stop","glyphicon-play");
+                }
+                dom.html(html);
+                dom.parents("tr").children("td.status").html(msg.status=='0'?"正常":"停用");
+
+            }
+        }else if(data.operate=='Get'){
+            if(msg['error']=='1'){
+
+                var now_active = active();
+
+                var dom = $("#"+now_active+"-UpdateModal .form-horizontal");
+
+                dom.find('input[type="text"],input[type="hidden"],textarea,select').each(function(){
+                    var name = $(this).attr("name");
+                    if(name != undefined){
+                        $(this).val(updata_get_data(name,msg));
+                    }
+                });
+
+                $('#'+active()+'-UpdateModal').modal('show');
+            }
+        }else if(data.operate=='del'){
+            if(msg['error']=='1'){
+                dom.parents("tr").hide(500);
+            }
+        }
+    }
+
+
+     function search_data(){
+         location.reload();
+     }
+
+    /*ajax*/
+    function post_data(url,data,dom,time){
+        chuli("正在处理，请稍后……");
+        time = time!=''?time:500;
+        console.log(url);
+        console.log(data);
+        //console.log(dom);
+        //console.log(time);
+
+        setTimeout(function(){
+            $.ajax({
+                url: '/oa.php'+url,
+                type:"post",
+                data: data,
+                dataType:'json',
+                success: function (msg) {
+                    msg_chuli(data,msg,dom);
+                },
+                error: function () {
+                    chuli("");
+                    toastr.error("提交数据，产生错误");
+                }
+            })
+        },time);
+    }
+
+    /*加载数据*/
+    //post_data("/"+Action+"/"+active()+"Page/",{"operate":'page'},'','0');
+
+
+
+    /*toastr配置*/
+    //toastr.options = {positionClass: "toast-top-center"};
+
+    /*读取字串符json数据*/
+    function json_parse_val(obj,key){
+        var val = "";
+        if(obj!=''){
+            obj = JSON.parse(obj);
+            if(obj[key]!=null){
+                val = obj[key];
+            }
+        }
+        return val;
+    }
+
+    function nulls(obj){
+        if(obj != null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
+
+    /*处理返回的data数据*/
+    function show_msg(data){
+        console.log(data);
+        if(data.error=='0'){
+            /*红色*/
+            toastr.error(data.msg);
+        }else if(data.error=='1'){
+            /*绿色*/
+            toastr.success(data.msg);
+        }else if(data.error=='2'){
+            /*橘黄色*/
+            toastr.warning(data.msg);
+        }else if(data.error=='4'){
+            /*浅蓝色*/
+            toastr.info(data.msg);
+        }
+    }
+
+
+    /*计算tab-content距离高度*/
+    function js_height(){
+        var height = $(".tab .tab-header-wrap").height();
+        $(".tab .tab-content-wrap").css("padding-top",height+"px");
+    }
+    js_height();
+
+</script>

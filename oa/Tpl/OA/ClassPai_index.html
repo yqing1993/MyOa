@@ -1,0 +1,1016 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap-multiselect.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate/laydate.js"></script>
+<script type="text/javascript" src="/public/js/jquery.table2excel.js"></script>
+<script type="text/javascript">
+var Action = '{$ActionName}';
+var AllClassCi = <?php echo (!empty($AllClassCi)?json_encode($AllClassCi):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+.look-table td , .look-table th {width:81px;}
+.look-table th {padding:5px 0!important;}
+.look-table td > .multiselect-native-select button {width:80px;height:50px;border: none;padding:0;background-color:transparent;}
+.look-table td > .multiselect-native-select button b {display:none;}
+.look-table td > .multiselect-native-select button .multiselect-selected-text {overflow: hidden;display: block;}
+.look-table td > button {width:80px;height:44px;border: none;padding:0;background-color:transparent;overflow: hidden;display: block;border-radius: 0px;position:relative;}
+
+.popover {max-width: 200px;width: 200px;}
+.yeban {/*background-color: #f5f5f5!important;*/color:#000!important;}
+.glyphicons-231-moon {width:8px;height:12px;display:none;background:url('/public/images/glyphicons_free/new_png/glyphicons-231-moons.png') no-repeat;background-size: 8px auto;position: absolute;top:5px;left:5px;}
+.yeban .glyphicons-231-moon {display: inline-block;}
+.glyphicons-231-moons {width:8px;height:13px;display:inline-block;background:url('/public/images/glyphicons_free/new_png/glyphicons-231-moons.png') 0 4px no-repeat;background-size: 8px auto;}
+</style>
+<title>排班管理</title>
+</head>
+
+<body>
+<style>
+	.col-xs-11 {
+		width: 36.666667%;
+	}
+</style>
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-calendar"></i>
+				<span>排班管理</span>
+
+			</div>
+			<div class="tab-search-box">
+				<div class="tab-search clearfix">
+					<div class="row">
+						<div class="col-xs-11 search-box">
+							<form class="form-inline">
+								<div class="form-group ">
+									<label>时间：</label>
+									<div class="input-group">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="本周">
+										</span>
+										<input type="text" style="width:200px;" class="layui-input form-control" name="DayTime" placeholder=" - ">
+										<span class="input-group-btn">
+											<input class="btn btn-default" type="button" name="DayTime-button" value="下周">
+										</span>
+									</div>
+								</div>
+							</form>
+							<p></p>
+						</div>
+
+						<!--<div class="col-xs-2">-->
+							<!--<form id="uploadForm"  enctype="multipart/form-data">-->
+								<!--<input  type="file" name="file" id="file"><br />-->
+							<!--</form>-->
+						<!--</div>-->
+						<!--<div class="col-xs-2">-->
+							<!--<button id="upload" class="btn btn-default">上传文件</button>-->
+						<!--</div>-->
+						<div class="col-xs-1">
+						<button class="btn btn-default modal_sub" data-toggle="modal">
+							<i class="glyphicon  glyphicon-upload"></i>
+							<span>上传文件</span>
+						</button>
+						</div>
+
+
+						<div style="margin-left: 40px" class="col-xs-1">
+							<button class="btn btn-default Export-Table pull-right" data-toggle="modal">
+								<i class="glyphicon glyphicon-download-alt"></i>
+								<span>导出表格</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content" style="margin:20px 20px 0 20px;">
+
+				<ul id="myTab" class="nav nav-tabs" style="display:none;">
+				    <li>
+				        <a href="#{$ActionName}" data-toggle="tab">全部数据</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane" id="{$ActionName}">
+				    	<div class="tab-pane-title clearfix">
+				    		<div class="row">
+				    			<div class="col-xs-10">
+				    				<p>提示：<i class="glyphicons-231-moons"></i> 晚班</p>
+				    				<!-- <p>快捷排班：</p> -->
+				    			</div>
+				    			<div class="col-xs-2">
+									<button class="button-green border-box post-sub" data-toggle="modal">
+										<i class="glyphicon glyphicon-ok"></i>
+										<span>提交排班</span>
+									</button>
+				    			</div>
+				    		</div>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+							<div class="look-table-box">
+								<div class="look-table-content">
+									<div class="FixData">
+										<div class="IE-Table"><!--麻痹的，完全是为了兼容IE，不然谁写这变态的父DIV-->
+								    		<table class="table table-bordered look-table">
+
+								    		</table>
+								    	</div>
+										<div class="FixData-Size"></div>
+									</div>
+						    	</div>
+						    </div>
+				    	</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="popover bottom" id="ClassBox" style="display:hide;">
+	<div class="arrow"></div>
+
+	<div class="popover-content">
+		<form class="form-horizontal">
+
+			<div class="form-group">
+				<label class="col-xs-4 control-label">班制</label>
+				<div class="col-xs-8">
+					<foreach name="ClassType" item="vo" key="key">
+						<div class="radio">
+							<label>
+								<input type="radio" name="ClassType" value="{$key}"> {$vo.name}
+							</label>
+						</div>
+					</foreach>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-4 control-label">班次</label>
+				<div class="col-xs-8">
+					<foreach name="AllClassCi" item="vo" key="key">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="ClassCi" value="{$key}"> <span>{$vo}</span>
+							</label>
+						</div>
+					</foreach>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+
+<div class="modal fade" id="{$ActionName}-myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					上传文件
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal" enctype="multipart/form-data" id="uploadForm">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">文件</label>
+							<div class="col-sm-6">
+								<input type="file" name="file" id="file">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript" src="/public/js/jquery.zclip.js"></script>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#myTab > li:first-child").addClass("active");
+	$("#myTabContent > .tab-pane:first-child").addClass("active");
+
+	$("#myTab li").click(function(){
+		setTimeout(function(){
+			var value = $('#'+active()+' .search-box input[name="DayTime"]').val();
+			Day_Seach({'day':value});
+		},50);
+	});
+
+
+    /*打开modal窗口*/
+    $(".modal_sub").click(function(){
+        var now_id = active();
+        $("#"+now_id+"-myModal").modal('show');
+    });
+
+    /*点击确定按钮*/
+    $(".modal .modal-footer button:last-child").click(function(){
+        //获取文件名
+		var name = $('#file').val();
+		name = name.split('.');
+        console.log(name);
+		var length = name.length;
+		if((name[length-1] != 'xls') && (name[length-1] != 'xlsx')){
+            console.log(name[length-1]);
+		    toastr.error('上传的文件必须为表格！');
+		}else{
+			console.log(name[length-1]);
+			chuli("表格上传中，请稍后……");
+			var url = '/oa.php/OA/ClassPai/upload';
+			var formData = new FormData($('#uploadForm')[0]);
+			$.ajax({
+				type: 'post',
+				url: url,
+				data: formData,
+				cache: false,
+				processData: false,
+				contentType: false,
+			}).success(function (msg) {
+				var msg = JSON.parse(msg); //由JSON字符串转换为JSON对象
+				console.log(msg);
+				msg_export(msg);
+				//alert(msg.msg);
+			}).error(function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			});
+		}
+    });
+
+	/*点击搜索*/
+	$('#search-sub').click(function(){
+		search_look();
+		return false;
+	});
+
+	/*提交排班*/
+	$('.post-sub').click(function(){
+		var arr = [];
+		$('#'+active()+' .FixData .look-table button[data-update="1"]').each(function(){
+			var obj = {};
+			obj.day = $(this).parent().attr('name');
+			if(obj.day == null || obj.day == ''){
+				toastr.error("提交失败，JS获取日期失败，请联系技术");
+				return false;
+			}
+
+			obj.userid = $(this).parent().parent().attr('name');
+			if(obj.userid == null || obj.userid == ''){
+				toastr.error("提交失败，JS获取员工ID失败，请联系技术");
+				return false;
+			}
+
+			obj.id = $(this).attr('data-id');
+			if(obj.id == null || obj.id == ''){
+				toastr.error("提交失败，ID获取失败，请联系技术");
+				return false;
+			}
+
+			obj.ClassType = $(this).attr('data-ClassType');
+			if(obj.ClassType == null || obj.ClassType == ''){
+				toastr.error("提交失败，班制获取失败，请联系技术");
+				return false;
+			}
+
+			ClassCiInfo = $(this).attr('data-ClassCiInfo');
+			var ClassCi = [];
+			if(ClassCiInfo != ''){
+				try{
+					var NewClassCiInfo = JSON.parse(ClassCiInfo);
+					if(NewClassCiInfo != null){
+						for(var i in NewClassCiInfo){
+							if(NewClassCiInfo[i]['id'] != null){
+								ClassCi.push(NewClassCiInfo[i]['id']);
+							}
+						}
+					}
+
+				}catch(e){}
+			}
+			obj.ClassCi = ClassCi;
+
+			arr.push(obj);
+		});
+
+		if(arr.length > 0){
+			var data = {};
+			data.data = JSON.stringify(arr);
+			data.operate = 'AddUpdate';
+			post_data('/'+Action+'/'+active()+'Data/',data,'','0');
+		}else{
+			toastr.warning("没有任何编辑");
+			return false;
+		}
+	});
+});
+
+/*生成html*/
+function look_html(data){
+	var tbody_tr_html = '';
+
+	/*遍历头，获得头tr*/
+	var head_html = '';
+	var header_width = '';
+	if(data['head']!=null && data['head']){
+
+		/*首先生成左上角表格头部信息*/
+		var header = data['head']['header'];
+		var header_html = '';
+		if(header!=null && header){
+			for(var i in header){
+				header_html += '<th width="'+header[i]['width']+'" data-key="'+i+'">'+header[i]['name']+'</th>';
+				header_width = header[i]['width'];
+			}
+		}
+
+		/*thead第一层tr 、 thead第二层tr 、 tbody里面的tr*/
+		var head =  data['head']['list'];
+		var first_tr_html = '';
+		if(head!=null && head){
+			for(var i in head){
+				first_tr_html += '<th data-key="'+i+'"'+(/[六|日]/g.test(head[i]) ? ' class="text-danger"' : '')+'>'+head[i]+'</th>';
+
+				tbody_tr_html += '<td data-key="'+i+'" name="'+i+'"><button type="button" class="btn btn-default btn-sm ClassBut" data-id="new" data-ClassType="0" data-ClassCiInfo="" data-update="0"'+(/[今天]/g.test(head[i]) ? ' style="font-weight:bold;"' : '')+'><i class="glyphicons-231-moon" title="晚班"></i><span></span></button></td>';
+			}
+		}
+
+		first_tr_html = header_html + first_tr_html;
+
+		first_tr_html = first_tr_html!='' ? '<tr>'+first_tr_html+'</tr>' : '';
+
+		head_html = first_tr_html;
+	}
+
+	/*遍历数据，写入空表格*/
+	var tbody_html = '';
+	if(data['data']!=null && data['data']){
+		for(var d in data['data']){
+			var Row_html = '';
+			var First_Col_html = '<td'+(header_width!='' ? (' width="'+header_width+'"') : '')+'>'+data['data'][d]['name']+'</td>';//写入首列
+
+			Row_html = First_Col_html + tbody_tr_html;
+			tbody_html += Row_html!='' ? ('<tr name="'+d+'">'+Row_html+'</tr>') : '';
+		}
+
+	}
+
+
+	/*空表格写入*/
+	head_html = head_html!='' ? '<thead>'+head_html+'</thead>' : '';
+	tbody_html = tbody_html!='' ? '<tbody>'+tbody_html+'</tbody>' : '';
+	var html = head_html+tbody_html;
+	var this_table = $("#"+active()+" .FixData .look-table");
+	this_table.html(html);
+
+
+	/*遍历数据，写入数据*/
+	if(data['data']!=null && data['data']){
+		for(var d in data['data']){
+			var list = data['data'][d]['list'];
+			var d_dom = this_table.find('tbody tr[name="'+d+'"]');
+			if(list!=null && list){
+				/*遍历数据*/
+				for(var i in list){
+					var button_dom = d_dom.find('td[name="'+i+'"] button');
+
+					button_dom.attr({
+						'data-id':list[i]['id'],
+						'data-ClassType':list[i]['ClassType'],
+						'data-ClassCiInfo':list[i]['ClassCiInfo']
+					});
+
+					_Style(button_dom);
+				}
+			}
+		}
+	}
+
+	/*日期填入*/
+	if(data['date']!=null && data['date'].length>0){
+		$('.search-box input[name="DayTime"]').val(data['date'][0]+' - '+data['date'][1]);
+	}
+
+	//multiple(this_table.find('[multiple="multiple"]'));
+	$('[data-toggle="popover"]').popover();
+
+	js_height();
+	on();
+}
+
+
+function StrNull(num){
+	var str = parseFloat(num) <= 0 ? ' class="null"':'';
+	return str;
+}
+
+/*显示排班操作*/
+function Show_ClassBox(But){
+	var dom = $("#ClassBox");
+
+	/*显示位置处理*/
+	var offset = But.offset();
+	var width = But.width();
+	var height =  But.height();
+
+	$('#ClassBox').css({
+		top: (offset.top+height),
+		left:(offset.left - ($('#ClassBox').width()/2) + (width / 2))
+	});
+
+	/*获得数据*/
+	var But_id = But.attr('data-id');
+	var But_ClassType = But.attr('data-ClassType');
+	var But_ClassCiInfo = But.attr('data-ClassCiInfo');
+
+	/*开始勾选*/
+	dom.find('[name="ClassType"]').eq(0).prop('checked', true);
+	if(But_ClassType != null && But_ClassType != ''){
+		dom.find('[name="ClassType"][value="'+But_ClassType+'"]').prop('checked', true);
+	}
+
+	// dom.find('[name="ClassCi"]').multiselect('deselectAll', false);
+	// dom.find('[name="ClassCi"]').multiselect('updateButtonText');
+	dom.find('[name="ClassCi"]').prop('checked', false);
+	if(But_ClassCiInfo != null && But_ClassCiInfo != ''){
+		try{
+			ClassCiInfo = JSON.parse(But_ClassCiInfo);
+			//var arr = [];
+			for(var i in ClassCiInfo){
+				//arr.push(ClassCiInfo[i]['id']);
+				dom.find('[name="ClassCi"][value="'+ClassCiInfo[i]['id']+'"]').prop('checked', true);
+			}
+			//dom.find('[name="ClassCi"]').multiselect('select',arr);
+		}catch(e){}
+	}
+
+	/*事件*/
+	dom.find('[name="ClassType"]').off('change').change(function(){
+		var val = dom.find('[name="ClassType"]:checked').val();
+		But.attr({'data-ClassType': val,'data-update':'1'});
+		_Style(But);
+	});
+
+	dom.find('[name="ClassCi"]').off('change').change(function() {
+		var new_arr = [];
+		var err_arr = [];
+
+		dom.find('[name="ClassCi"]:checked').each(function(){
+			var id = $(this).val();
+			new_arr.push({'id':id,'ClassCiName': AllClassCi[id]});
+			err_arr.push(AllClassCi[id]);
+		});
+
+		if(err_arr.length > 1){
+			if(err_arr.indexOf('休息') >= 0){
+				toastr.warning("休息不能和其他班次同时存在");
+				$(this).prop('checked', false);
+				return false;
+			}else if(err_arr.indexOf('行政班') >= 0){
+				toastr.warning("行政班不能和其他班次同时存在");
+				$(this).prop('checked', false);
+				return false;
+			}else if(err_arr.indexOf('请假') >= 0){
+				toastr.warning("请假不能和其他班次同时存在");
+				$(this).prop('checked', false);
+				return false;
+			}else if(err_arr.indexOf('调休') >= 0){
+				toastr.warning("调休不能和其他班次同时存在");
+				$(this).prop('checked', false);
+				return false;
+			}
+		}
+
+
+		But.attr({'data-ClassCiInfo': (new_arr.length > 0 ? JSON.stringify(new_arr) : ''),'data-update':'1'});
+		_Style(But);
+	});
+
+	$("#ClassBox").show();
+}
+
+/*按钮样式处理*/
+function _Style(But){
+
+	/*夜班加样式*/
+	But.removeClass('yeban');
+	var But_ClassType = But.attr('data-ClassType');
+	if(But_ClassType != null && But_ClassType == '2'){
+		But.addClass('yeban');
+	}
+
+	/*写入html*/
+	var But_ClassCiInfo = But.attr('data-ClassCiInfo');
+	var ClassCiInfo = [];
+	if(But_ClassCiInfo != ''){
+		try{
+			ClassCiInfo = JSON.parse(But_ClassCiInfo);
+		}catch(e){}
+	}
+
+	var ClassName = [];
+	for(var c in ClassCiInfo){
+		ClassName.push(ClassCiInfo[c]['ClassCiName']);
+	}
+
+	var Color = {'background':'','color':''};
+	if(ClassName.indexOf("行政班") >= 0){
+		Color = {'background':'#87d068','color':'#fff'};
+	}else if(ClassName.indexOf("请假") >= 0){
+		Color = {'background':'#ff5500','color':'#fff'};
+	}else if(ClassName.indexOf("休息") >= 0){
+		Color = {'background':'#E7DFAD','color':'#fff'};
+	}else if(ClassName.indexOf("调休") >= 0){
+		Color = {'background':'#CC99FF','color':'#fff'};
+	}else if(ClassName.length > 0 && ClassName.indexOf("休息") < 0){
+		Color = {'background':'#2db7f5','color':'#fff'};
+	}
+
+	But.find('span').html(ClassName.join("+")).parent().attr('title',ClassName.join("+")).css(Color);
+}
+
+function on(){
+	/*表格处理*/
+	look_table_fix($('#'+active()+' .FixData table'),'top-bottom-left','1-1-1');
+
+	/*button绑定事件*/
+	$('#'+active()+' .FixData table').find('.ClassBut').off('click').click(function(){
+		Show_ClassBox($(this));
+	});
+
+	$('#'+active()+" .FixData").off('scroll').scroll(function(){
+		var dom = $(this).parents('.look-table-box');
+		var left = $(this).scrollLeft();
+		var top = $(this).scrollTop();
+
+		dom.find(".FixTop,.FixBottom").scrollLeft(left);
+		dom.find(".FixLeft").scrollTop(top);
+
+		if(left > 0){
+			$(this).parent().addClass('LeftShadow');
+		}else{
+			$(this).parent().removeClass('LeftShadow');
+		}
+		var table_height = $(this).find("table").height();
+		var this_height = $(this).height();
+		if(top + Column_scroll >= (table_height - this_height + Column_scroll)){
+			$(this).parent().removeClass('BottomShadow');
+		}else{
+			$(this).parent().addClass('BottomShadow');
+		}
+
+	});
+
+	$('#'+active()+" .FixLeft").off('mousewheel DOMMouseScroll').on("mousewheel DOMMouseScroll", function (e) {
+	    var delta = e.originalEvent.wheelDelta || e.originalEvent.detail;
+	    if(delta > 0 ){
+	    	delta = parseFloat("-"+delta);
+	    }else{
+	    	delta = Math.abs(delta);
+	    }
+		var dom = $(this).parents('.look-table-box');
+	    var gdt = dom.find(".FixLeft").scrollTop();
+	    dom.find(".FixLeft").scrollTop(gdt + delta);
+	    dom.find(".FixData").scrollTop(gdt + delta);
+	});
+
+	$('#'+active()+' .look-table-box .FixData table tbody tr').off('mouseover').off('mouseout').mouseout(function(){
+		var row_num = $(this).index();
+		$('#'+active()+' .look-table-box .FixData table tbody tr').removeClass('tr-hover');
+		$('#'+active()+' .look-table-box .FixLeft table tbody tr').removeClass('tr-hover');
+	}).mouseover(function(){
+		var row_num = $(this).index();
+		$('#'+active()+' .look-table-box .FixData table tbody tr').eq(row_num).addClass('tr-hover');
+		$('#'+active()+' .look-table-box .FixLeft table tbody tr').eq(row_num).addClass('tr-hover');
+	});
+}
+
+$(document).click(function(event) {
+	var target = $(event.target);
+	if(target.closest(".ClassBut").length == 0 && target.closest("#ClassBox").length == 0){
+		$("#ClassBox").hide();
+	}
+});
+
+/*获取已选*/
+function checkbox(dom){
+	var che_arr = new Array();
+	var che_i = 0;
+	dom.find('input[type="checkbox"]').each(function(){
+		if($(this).prop('checked')){
+			che_arr[che_i] = $(this).val();
+			che_i++;
+		}
+	});
+	return che_arr;
+}
+
+var Row_scroll = 0;
+var Column_scroll = 0;
+function look_table_fix(dom,type,num){
+	dom = dom.parents('.look-table-box');
+	dom_content = dom.find('.look-table-content');
+	dom_table = dom.find('.FixData table');
+
+	/*计算表格宽度*/
+	dom.find('.FixData').css({'width':'100%','height':'100%'});
+	dom_table.parent().css('width',"99999px");
+	dom_table.css('width','auto');
+
+	var table_width = dom_table.width();
+	dom_table.css('width',table_width+'px');
+	dom_table.parent().css({'width':table_width+'px','height':'auto'});
+	dom.find('.FixData').css({'width':'100%','height':'100%'});
+
+	dom_content.find('.FixTop').remove();
+	dom_content.find('.FixLeft').remove();
+	dom_content.find('.FixBottom').remove();
+	dom_content.find('.FixLeftTop').remove();
+	dom_content.find('.FixLeftBottom').remove();
+
+	Row_scroll = (dom.find('.FixData')[0].offsetHeight) - (dom.find('.FixData-Size')[0].scrollHeight);
+	Column_scroll = (dom.find('.FixData')[0].offsetWidth) - (dom.find('.FixData-Size')[0].scrollWidth);
+
+	var type_arr = type.split("-");
+	var num_arr = num.split("-");
+	if(type_arr.length == num_arr.length){
+		var Table_html = dom_table.parent().prop("outerHTML");
+		var top_status = 0;
+		var left_status = 0;
+		var bottom_status = 0;
+		for(var i=0;i<type_arr.length;i++){
+			var html = '';
+			if(type_arr[i] == 'top'){
+				top_status = 1;
+				//html = dom_table.find('thead').prop("outerHTML");
+				dom_content.append('<div class="FixTop">'+Table_html+'</div>');
+				dom_content.find('.FixTop table tbody').remove();
+			}else if(type_arr[i] == 'left'){
+				if(Row_scroll > 0){
+					left_status = 1;
+					dom_content.append('<div class="FixLeft">'+Table_html+'</div>');
+					var thead_height = dom_content.find('.FixData table thead').height();
+					//dom_content.find('.FixLeft table tr td:first-child,.FixLeft table tr th:first-child').addClass('not');
+					dom_content.find('.FixLeft table tr td:not(.not),.FixLeft table tr th:not(.not)').remove();
+					dom_content.find('.FixLeft table tr td,.FixLeft table tr th:not(.not)').removeClass('not');
+
+					/*定义tr高度*/
+					dom_table.find('tbody tr').each(function(i){
+						var tr_height = $(this).height();
+						dom_content.find('.FixLeft table tbody tr').eq(i).css('height',tr_height+'px');
+					});
+
+					/*定义thead高度*/
+					//dom_content.find('.FixLeft table thead tr:first-child').addClass('not').attr('height',thead_height);
+					dom_content.find('.FixLeft table thead tr:not(.not)').remove();
+					dom_content.find('.FixLeft table thead tr').removeClass('not');
+
+				}
+			}else if(type_arr[i] == 'bottom'){
+				if(Column_scroll > 0 ){
+					bottom_status = 1;
+					dom_content.append('<div class="FixBottom">'+Table_html+'</div>');
+					dom_content.find('.FixBottom table thead').remove();
+					//dom_content.find('.FixBottom table tbody tr:last-child').addClass('not');
+					dom_content.find('.FixBottom table tbody tr:not(.not)').remove();
+					dom_content.find('.FixBottom table tbody tr').removeClass('not');
+				}
+			}
+		}
+
+		if(top_status == 1 && left_status == 1){
+			var FixLeft_table_html = dom_content.find('.FixLeft table').parent().prop("outerHTML");
+			dom_content.append('<div class="FixLeftTop">'+FixLeft_table_html+'</div>');
+			dom_content.find('.FixLeftTop table tbody').remove();
+		}
+
+		if(bottom_status == 1 && left_status == 1){
+			var FixBottom_table_html = dom_content.find('.FixBottom table').parent().prop("outerHTML");
+			dom_content.append('<div class="FixLeftBottom">'+FixBottom_table_html+'</div>');
+			dom_content.find('.FixLeftBottom table tbody tr td:first-child').addClass('not');
+			dom_content.find('.FixLeftBottom table tbody tr td:not(.not)').remove();
+			dom_content.find('.FixLeftBottom table tbody tr td').removeClass('not');
+		}
+
+	}else{
+		toastr.error("冻结表格时，行列数字不正确");
+	}
+
+	table_height = dom_table.height();
+	dom_table.parent().css('height',table_height+'px');
+	if(Column_scroll <=0 ){
+		dom.find('.FixData').css({'height':(table_height+Row_scroll+2)+'px'});
+	}else{
+		dom.find('.FixData').css({'height':'100%'});
+	}
+
+	table_width = dom_table.width();
+	if(Row_scroll <=0 ){
+		dom.find('.FixData').css({'width':(table_width+Column_scroll+2)+'px'});
+	}else{
+		dom.find('.FixData').css({'width':'100%'});
+	}
+
+	dom.find(".FixTop,.FixBottom").css('width',(Row_scroll > 0 ? (dom.find('.FixData-Size')[0].scrollWidth)+'px' : 'auto'));
+	dom.find(".FixLeft").css('height',(Column_scroll > 0 ? (dom.find('.FixData-Size')[0].scrollHeight) +'px' : 'auto'));
+	dom.find(".FixLeftBottom,.FixBottom").css('bottom',Row_scroll+'px');
+
+	dom.find(".FixData,.FixLeft,.FixTop,.FixBottom").scrollLeft(0).scrollTop(0);
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='Look'){
+		if(msg.error == '0'){
+			look_html(msg);
+		}
+	}else if(data.operate=='AddUpdate'){
+		if(msg.error == '1'){
+			Day_Seach({});
+		}
+	}
+}
+
+
+
+/*处理返回的msg数据*/
+function msg_export(msg){
+    chuli("");
+
+    if(msg['msg'] != undefined){
+        show_msg(msg);
+    }
+
+
+	if(msg.error == '0'){
+		look_html(msg);
+	}else if(msg.error == '1'){
+        $('.modal').modal('hide');
+		Day_Seach({});
+	}
+
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+    console.log(data);
+    console.log(url);
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				//alert(msg);
+				console.log(msg);
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+/*加载数据*/
+setTimeout(function(){
+	if(active()){
+		search_look({});
+	}else{
+		toastr.warning("您没有权限");
+	}
+},100);
+
+/*搜索*/
+function search_look(data){
+	js_height();
+	data.operate = 'Look';
+	post_data('/'+Action+'/'+active()+'Data/',data,'','0');
+	//Export_Table();
+}
+
+/*时间处理*/
+$('[name="DayTime-button"]').click(function(){
+	var str = $(this).val();
+	if(str == '下周'){
+		Day_Seach({'day':getTime(-7) + " - " + getTime(-13)});
+	}else if(str == '本周'){
+		Day_Seach({'day':getTime(0) + " - " + getTime(-6)});
+	}
+});
+
+function getTime(n){
+	var now=new Date();
+	var year=now.getFullYear();
+	var month=now.getMonth()+1;
+	var date=now.getDate();
+	var day=now.getDay();
+	console.log(date);
+	if(day!==0){
+		n=n+(day-1);
+	}else{
+		n=n+day;
+	}
+
+	if(day){
+		if(month>1){
+			month=month;
+		}else{
+			year=year-1;
+			month=12;
+		}
+	}
+	now.setDate(now.getDate()-n);
+	year=now.getFullYear();
+	month=now.getMonth()+1;
+	date=now.getDate();
+	console.log(n);
+	s=year+"-"+(month <10?( '0'+month):month)+ "-"+(date<10?( '0'+date):date);
+	return s;
+}
+
+$('[name="DayTime"]').each(function(i){
+	var dom = $(this)[0];
+	laydate.render({
+		elem: dom,
+		range: true,
+		done: function(value, date, endDate){
+			Day_Seach({'day':value});
+		}
+	});
+});
+
+function Day_Seach(data){
+	if(data.day == null || data.day == ''){
+		var val = $('[name="DayTime"]').val();
+		if(val != ''){
+			data.day = val;
+		}
+	}
+
+	if(data.day != null && data.day != ''){
+		var day_arr = data.day.split(' - ');
+		if(day_arr.length>1){
+			data.StartTime = Date.parse(new Date(day_arr[0].replace(/\-/g,"/"))) / 1000;
+			data.EndTime = Date.parse(new Date(day_arr[1].replace(/\-/g,"/"))) / 1000;
+			if(data.StartTime > data.EndTime){
+				toastr.error('结束时间不能小于开始时间');
+				return false;
+			}
+		}
+	}
+	delete data.day;
+	search_look(data);
+}
+
+/*toastr配置*/
+//toastr.options = {positionClass: "toast-top-center"};
+
+/*多选*/
+function multiple(dom){
+	dom.each(function(){
+		var config = {
+			nSelectedText: '已选',
+	        nonSelectedText: '未选择',
+	        allSelectedText: '全选',
+	        selectAllText: '全选',
+	        delimiterText: '+',
+	        numberDisplayed: 5,
+	        maxHeight: 500,
+	    };
+		$(this).multiselect(config);
+	});
+}
+multiple($('body [multiple="multiple"]'));
+
+function Sum(ynum,xnum){
+	var num = parseFloat(ynum);
+	if(xnum != null && xnum != ''){
+		num = num + parseFloat(xnum);
+	}
+	return num;
+}
+
+/*获得当前显示的tabID*/
+function active(){
+	var id = $(".tab-pane.active").attr("id");
+	if(id == 'undefined'){
+		return false;
+	}
+	return id;
+}
+
+/*导出表格按钮点击事件*/
+function Export_Table(){
+	var zclip = $(".Export-Table").parent().children('.zclip').length;
+	if(zclip <= 0){
+		$(".Export-Table").zclip({
+			path: "/public/js/ZeroClipboard.swf",
+			copy: function(){
+				var table_val = $('.look-table-box .FixData table').prop("outerHTML");
+
+				if(table_val.indexOf('<tr')>=0){
+					return table_val;
+				}else{
+					toastr.warning('表格为空');
+				}
+			},
+			afterCopy:function(){
+				alert('已成功复制到剪切板，打开Excel表格直接粘贴即可');
+				//toastr.success('导出成功');
+			}
+		});
+	}
+}
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+/*窗口大小改变事件*/
+$(window).resize(function() {
+	js_height();
+	look_table_fix($('#'+active()+' .FixData table'),'top-bottom-left','1-1-1');
+});
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+
+	/*浏览表格最大化*/
+	var window_height = $(window).height();
+	var content_height = $('.tab-pane.active .look-table-content').offset().top;
+	$('.tab-pane.active .look-table-content').css('height',(window_height - content_height)+'px');
+}
+js_height();
+</script>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name=renderer content=webkit>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+    <link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/oa.css?<?php echo time();?>" type="text/css" />
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+    <script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/public/js/common.js"></script>
+    <script type="text/javascript" src="/public/js/laydate.js"></script>
+    <script type="text/javascript">
+        //var user_info = <?php echo (!empty($user_info)?json_encode($user_info):'""');?>;
+    </script>
+    <style>
+        html,body {height:100%;}
+    </style>
+    <title>关键词系统</title>
+</head>
+
+<body>
+
+<div class="wrap order">
+    <div class="header left-right">
+        <div class="left">
+            <div class="logo left-width">
+                <img src="/public/images/logo.png" />
+            </div>
+        </div>
+        <div class="rights">
+            <div class="info clearfix">
+                <div class="system pull-left">
+                    <a href="/oa.php/">OA系统</a>
+                    <a href="/oa.php/Check/">竞价</a>
+                    <a class="selected" href="/oa.php/Keywords/">关键词</a>
+                    <a href="/oa.php/Love/">爱心</a>
+                </div>
+                <div class="admin">你好 {$user_info.username}<a href="/oa.php/admin/loginout"><i class="glyphicon glyphicon-off"></i> 退出</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-box">
+
+            <div class="left">
+                <div class="nav-box">
+                    <div class="nav">
+                        <ul class="nav-ul">
+                            <li class="nav-hidden">
+                                <i class="glyphicon glyphicon-option-horizontal center-block" style="width:15px"></i>
+                            </li>
+                            <li class="nav-title">后台管理</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-flag"></i>
+                                    <span>关键词后台管理</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('KeCategory',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/KeCategory/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-pushpin"></i>
+                                        <span>类型管理</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    if(role('KeProject',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/KeProject/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>项目词管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                    if(role('KeType',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/KeType/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>类别词管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                    if(role('KeSearch',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/KeSearch/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>关键词级别管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    if(role('KeKeyword',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/KeKeyword/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pushpin"></i>
+                                            <span>关键词管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-tags"></i>
+                                    <span>审批管理&nbsp;<span  style="background-color: #d3dbf6;border-radius: 12px;color: #000;">&nbsp;&nbsp;{$num}&nbsp;&nbsp;</span></span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('KeSp',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/KeSp/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-send"></i>
+                                        <span>关键词审批</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+                                    ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-wrench"></i>
+                                    <span>品牌词分配管理</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('KeDistribution',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/KeDistribution/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-file"></i>
+                                        <span>品牌词分配</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-title">数据录入</li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-tags"></i>
+                                    <span>关键词级别录入&nbsp;<span  style="background-color: #d3dbf6;border-radius: 12px;color: #000;">&nbsp;&nbsp;{$numbers}&nbsp;&nbsp;</span></span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+                                if(role('InsertSearch',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/InsertSearch/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-pushpin"></i>
+                                        <span>关键词级别录入</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+                                    ?>
+
+                                </ul>
+                            </li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    <span>行业关键词录入</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('InsertBotox',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/InsertBotox/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        <span>瘦脸</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    if(role('InsertJianf',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/InsertJianf/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                            <span>减肥</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    if(role('InsertYangs',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/InsertYangs/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                            <span>养生</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+                                    ?>
+
+                                </ul>
+                            </li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    <span>品牌关键词录入</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('InsertBrand',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/InsertBrand/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                        <span>品牌关键词录入</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+
+                                    ?>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-title">数据获取</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-comment"></i>
+                                    <span>品牌词获取&nbsp;<span  style="background-color: #d3dbf6;border-radius: 12px;color: #000;">&nbsp;&nbsp;{$number}&nbsp;&nbsp;</span></span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                if(role('KeGet',1)){
+                                    echo '
+                                    <li>
+                                    <a href="/oa.php/Keywords/KeGet/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                        <span>品牌词获取</span>
+                                    </a>
+                                    </li>
+                                    ';
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+
+
+                            <li class="nav-title">数据预览</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    <span>关键词库</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+
+                                <ul class="nav-two-ul">
+                                    <?php
+
+                                    if(role('InsertBrand',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/LookBrand/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            <span>品牌关键词库</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                    if(role('InsertBotox',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/LookBotox/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            <span>瘦脸关键词库</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                    if(role('InsertJianf',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/LookJianf/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            <span>减肥关键词库</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+
+
+                                    if(role('InsertYangs',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Keywords/LookYangs/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-list"></i>
+                                            <span>养生关键词库</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                    }
+                                    ?>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rights">
+                <iframe align="middle" src="/oa.php/Welcome/index/" allowtransparency="true" frameborder="0" id="mainframe" name="mainiframe" scrolling="true" width="100%" height="100%"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+<div id="parent"></div>
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('a').each(function(){
+            var str = $(this).children('span').text();
+            if(str != ''){
+                $(this).attr({"data-toggle":"tooltip","data-animation":"false","data-trigger":"hover","data-placement":"right","title":str});
+            }
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+
+        /*折叠隐藏左边*/
+        var LeftHidden = getCookie('LeftHidden');
+        if(LeftHidden == '1'){
+            $(".order").addClass('left-hidden');
+        }
+        $('.nav-hidden').click(function(){
+            $(".order").toggleClass('left-hidden');
+
+            LeftHidden = $(".order").hasClass('left-hidden') ? '1' : '0';
+            setCookie('LeftHidden',LeftHidden,'');
+        });
+
+        /*展开*/
+        $(".nav-li:not(.not-nav-li) > a").click(function(){
+            $(this).parent().children(".nav-two-ul").toggle(200);
+            $(this).children("i:last-child").toggleClass("glyphicon-menu-up");
+        });
+
+        $(".nav-two-ul li a").click(function(){
+            $(".nav-li").removeClass("active");
+            $(this).parent().parent().parent().addClass("active");
+
+            $(".nav-two-ul li a").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $(".nav-two-ul").each(function(){
+            var html = $(this).html();
+            if(html.indexOf("a")<0){
+                $(this).parent().hide();
+            }
+        });
+
+        $('.nav-title').each(function(){
+            if($(this).next().is(':hidden')){
+                $(this).hide();
+            }
+        });
+    });
+
+    function Reload(){
+        location.reload();
+        return true;
+    }
+
+    /*轮询*/
+
+
+
+</script>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name=renderer content=webkit>
+<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css?<?php echo time();?>" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+//var user_info = <?php echo (!empty($user_info)?json_encode($user_info):'""');?>;
+</script>
+<style>
+html,body {height:100%;}
+</style>
+<title>OA系统</title>
+</head>
+
+<body>
+
+<div class="wrap order">
+    <div class="header left-right">
+        <div class="left">
+            <div class="logo left-width">
+                <img src="/public/images/logo.png" />
+            </div>
+        </div>
+        <div class="rights">
+            <div class="info clearfix">
+                <div class="system pull-left">
+                    <a class="selected" href="/oa.php/">OA系统</a>
+                    <a href="/oa.php/Check/">竞价</a>
+                    <?php
+                          if(role('KeBs',1)){
+                          echo'
+                          <a href="/oa.php/Keywords/">关键词</a>
+                    ';
+                    }
+                    ?>
+                    <a href="/oa.php/Love/">爱心</a>
+                </div>
+                <div class="admin">你好 {$user_info.username}<a href="/oa.php/admin/loginout"><i class="glyphicon glyphicon-off"></i> 退出</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-box">
+
+            <div class="left">
+                <div class="nav-box">
+                    <div class="nav">
+                        <ul class="nav-ul">
+                            <li class="nav-hidden">
+                                    <i class="glyphicon glyphicon-option-horizontal center-block" style="width:15px"></i>
+                            </li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    <span>个人中心</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+                                <ul class="nav-two-ul">
+                                    <li>
+                                        <a href="/oa.php/UpdatePass/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                            <span>修改密码</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/oa.php/Myclass/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                            <span>我的排班</span>
+                                        </a>
+                                    </li>
+                                <?php
+                                if(role('LIDLookcode',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Check/LIDLookcode/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                            <span>查看码</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+                                
+                                ?>
+                                </ul>
+                            </li>
+
+                            <li class="nav-title">后台管理</li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <span>用户权限</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+                                <ul class="nav-two-ul">
+                                <?php
+                                if(role('UserManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/UserManage/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                            <span>用户管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('RoleManage',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/RoleManage/Role/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-eye-close"></i>
+                                            <span>角色管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('Department',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Department/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-th-list"></i>
+                                            <span>部门管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                ?>
+                                </ul>
+                            </li>
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                    <span>排班管理</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+                                <ul class="nav-two-ul">
+                                <?php
+                                if(role('ClassUser',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/ClassUser/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                            <span>人员设置</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('ClassCi',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/ClassCi/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-th-list"></i>
+                                            <span>班次设置</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                if(role('ClassPai',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/ClassPai/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                            <span>排班管理</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                ?>
+                                </ul>
+                            </li>
+
+                            <li class="nav-li">
+                                <a href="javascript:void(0);">
+                                    <i class="glyphicon glyphicon-book"></i>
+                                    <span>全部日志</span>
+                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                </a>
+                                <ul class="nav-two-ul">
+                                <?php
+                                if(role('Log',1)){
+                                    echo '
+                                    <li>
+                                        <a href="/oa.php/Log/index/" target="mainiframe">
+                                            <i class="glyphicon glyphicon-text-background"></i>
+                                            <span>操作日志</span>
+                                        </a>
+                                    </li>
+                                    ';
+                                }
+
+                                ?>
+                                </ul>
+                            </li>
+                            <li class="nav-title">消息管理</li>
+                            <li class="nav-li">
+                            <a href="javascript:void(0);">
+                                <i class="glyphicon glyphicon-book"></i>
+                                <span>企业消息</span>
+                                <i class="glyphicon glyphicon-menu-down"></i>
+                            </a>
+                            <ul class="nav-two-ul">
+
+                                <li>
+                                    <a href="/oa.php/MessageNoRead/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-envelope"></i>
+                                        <span>未读({$w})</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/oa.php/MessageReaded/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-file"></i>
+                                        <span>已读({$y})</span>
+                                    </a>
+                                </li>
+
+
+
+                                <?php
+                                if(role('PublishMessage',1)){
+                                    echo '
+                                    <li>
+                                <a href="/oa.php/PublishMessage/index/" target="mainiframe">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    <span>写消息</span>
+                                </a>
+                                </li>
+
+
+                                <li>
+                                    <a href="/oa.php/AlreadySend/index/" target="mainiframe">
+                                        <i class="glyphicon glyphicon-comment"></i>
+                                        <span>已发布</span>
+                                    </a>
+                                </li>
+
+                                ';
+                                }
+
+                                ?>
+                            </ul>
+
+
+                            </li>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rights">
+                <iframe align="middle" src="/oa.php/Welcome/index/" allowtransparency="true" frameborder="0" id="mainframe" name="mainiframe" scrolling="true" width="100%" height="100%"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+<div id="parent"></div>
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('a').each(function(){
+        var str = $(this).children('span').text();
+        if(str != ''){
+            $(this).attr({"data-toggle":"tooltip","data-animation":"false","data-trigger":"hover","data-placement":"right","title":str});
+        }
+    });
+	$('[data-toggle="tooltip"]').tooltip();
+
+    /*折叠隐藏左边*/
+    var LeftHidden = getCookie('LeftHidden');
+    if(LeftHidden == '1'){
+         $(".order").addClass('left-hidden');
+    }
+    $('.nav-hidden').click(function(){
+        $(".order").toggleClass('left-hidden');
+
+        LeftHidden = $(".order").hasClass('left-hidden') ? '1' : '0';
+        setCookie('LeftHidden',LeftHidden,'');
+    });
+
+    /*展开*/
+    $(".nav-li:not(.not-nav-li) > a").click(function(){
+        $(this).parent().children(".nav-two-ul").toggle(200);
+        $(this).children("i:last-child").toggleClass("glyphicon-menu-up");
+    });
+
+    $(".nav-two-ul li a").click(function(){
+        $(".nav-li").removeClass("active");
+        $(this).parent().parent().parent().addClass("active");
+
+        $(".nav-two-ul li a").removeClass("active");
+        $(this).addClass("active");
+    });
+
+    $(".nav-two-ul").each(function(){
+        var html = $(this).html();
+        if(html.indexOf("a")<0){
+            $(this).parent().hide();
+        }
+    });
+
+    $('.nav-title').each(function(){
+        if($(this).next().is(':hidden')){
+            $(this).hide();
+        }
+    });
+});
+
+function Reload(){
+    location.reload();
+    return true;
+}
+
+
+</script>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>统计代码设置</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-wrench"></i>
+				<span>统计代码设置</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs" style="display:none;">
+				    <li class="active">
+				        <a href="#TongjiSet" data-toggle="tab">统计代码设置</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane in active" id="TongjiSet">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+				    	</div>
+
+				    	<div class="tab-pane-content" style="padding:0 20px 20px 20px;">
+							
+				    		<div class="row">
+								<div class="col-xs-6">
+									<form class="form-horizontal">
+
+										<div class="form-group">
+											<label for="firstname" class="col-sm-2 control-label">授权域名</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="RightUrl" placeholder="授权域名" value="{$RightUrl}">
+												<div class="checkbox">提示：支持多个域名，可用逗号分隔。不用填入http:// 和 后面</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-4">
+												<button type="button" class="btn btn-success" id="sub">确定</button>
+											</div>
+										</div>
+										<br />
+										<br />
+										<br />
+										<br />
+										<br />
+										<div class="form-group">
+											<label for="firstname" class="col-sm-2 control-label">代码安装</label>
+											<div class="col-sm-10">
+												<textarea class="form-control" rows="3"><script type="text/javascript" src="http://{$_SERVER['HTTP_HOST']}/public/js/tj.js"></script></textarea>
+												<div class="checkbox">提示：代码放在页面 < body > 标签内</div>
+											</div>
+										</div>
+										
+									</form>
+								</div>
+				    		</div>
+				    	</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+var Action = 'Check/TongjiSet';
+$(document).ready(function(){
+	//$('#Message-myModal').modal('show');
+
+	/*打开modal窗口*/
+	$("#sub").click(function(){
+		var RightUrl = $('[name="RightUrl"]').val();
+		if(RightUrl == ''){
+			toastr.warning("请输入授权域名");
+			return false;
+		}
+
+		RightUrl = RightUrl.replace(/(^\s*|\s*$)/g,'');
+		RightUrl = RightUrl.replace(/(^[，]*|^[,]*|[，]*$|[,]*$)/g,'');
+
+		RightUrl = RightUrl.replace(/(\s+)/g,',');
+		RightUrl = RightUrl.replace(/([，]+)/g,',');
+
+		RightUrl = RightUrl.replace(/([,]+)/g,',');
+
+		var RightUrl_arr = RightUrl.match(/((\w+\.){2}\w+)/g);
+
+		if(RightUrl_arr != null && RightUrl_arr.length > 0){
+			var RightUrl_str = RightUrl_arr.join(",");
+			$('[name="RightUrl"]').val(RightUrl_str);
+
+			var data = {};
+			data.RightUrl = RightUrl_str;
+			data.operate = 'AddUrl';
+			post_data("/"+Action+"/Data/",data,'','');
+		}
+	});
+});
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='UpdatePass'){
+	}
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// alert(XMLHttpRequest.status);
+				// alert(XMLHttpRequest.readyState);
+				// alert(errorThrown);
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+</script>

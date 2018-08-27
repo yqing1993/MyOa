@@ -1,0 +1,23 @@
+.Comment-ul .star-box {color:#ff9d09;font-size:16px;}
+.Comment-ul .star-box i {font-size:1em;}
+.Comment-ul .star-box i.gray {color:#d9d9d9;}
+
+.Comment-ul .time {color:#999;}
+.Comment-ul > li {padding:15px 0;border-bottom: 1px solid #ddd;}
+.Comment-ul .J-thumb-img {display:block;float:left;padding: 1px;border: 1px solid #e2e2e2;margin:6px 6px 0 0;width:50px;height:50px;vertical-align: middle;overflow:hidden;}
+.Comment-ul .J-thumb-img img {width:100%;vertical-align: middle;}
+.Comment-ul .Seller-Msg-Icon {vertical-align:top;padding-top:2px;color:#42678a;}
+.Comment-ul .Seller-Msg {padding-left:5px;}
+.Comment-ul .Seller-Msg span {color:#42678a;}
+.Comment-ul .zan {text-align:right;color:#999;cursor:pointer;}
+.Comment-ul .zan i {color:#ff6633;}
+
+.Comment-Post .file {float: left;position: relative;display: inline-block;border: 1px solid #ccc;padding: 9px 12px;overflow: hidden;color: #8c8a8c;text-decoration: none;text-indent: 0;}
+.Comment-Post .file input {position: absolute;font-size: 100px;right: 0;top: 0;opacity: 0;width:100%;height:100%;}
+.Comment-Post .file:hover {color: #333;text-decoration:none;}
+
+.Comment-Post .Star-Click {font-size:16px;border:none;-webkit-box-shadow:none;box-shadow:none;padding-left:0;}
+.Comment-Post .Star-Click i{cursor:pointer;color:#ff9d09;}
+.Comment-Post .Star-Click i.gray {color:#d9d9d9;}
+
+

@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate/laydate.js"></script>
+<script type="text/javascript">
+var Action = 'Check/{$ActionName}';
+var AllProject = <?php echo (!empty($AllProject)?json_encode($AllProject):'""');?>;
+var AllPlatform = <?php echo (!empty($AllPlatform)?json_encode($AllPlatform):'""');?>;
+var AllHu = <?php echo (!empty($AllHu)?json_encode($AllHu):'""');?>;
+var AllZhaoWeb = <?php echo (!empty($AllZhaoWeb)?json_encode($AllZhaoWeb):'""');?>;
+var AllWechat = <?php echo (!empty($AllWechat)?json_encode($AllWechat):'""');?>;
+var AllTuiWeb = <?php echo (!empty($AllTuiWeb)?json_encode($AllTuiWeb):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>消费录入</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-flag"></i>
+				<span>消费录入</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs">
+				    <li class="active">
+				        <a href="#{$ActionName}" data-toggle="tab">录入记录</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane in active" id="{$ActionName}">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+							<button class="button-green border-box modal_sub" data-toggle="modal">
+								<i class="glyphicon glyphicon-plus"></i>
+								<span>录入数据</span>
+							</button>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>ID</td>
+										<td width="20%">推广名称</td>
+										<td width="6%">日期</td>
+										<td width="10%">时间段</td>
+										<td width="6%">消费币</td>
+										<td width="6%">点击</td>
+										<td width="10%">备注</td>
+										<td width="8%">更新人</td>
+										<td width="12%">更新时间</td>
+										<td>操作</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="{$ActionName}-myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					数据录入
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+						<input type="hidden" name="id" value="new" />
+						<div class="form-group">
+							<label class="col-sm-2 control-label">录入日期</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" name="RecordDay">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+					</form>
+
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th width="46%">推广名称</th>
+								<th width="19%">时间段</th>
+								<th width="10%">消费币</th>
+								<th width="10%">点击</th>
+								<th width="15%">备注</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="{$ActionName}-UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					编辑项目
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+						<input type="hidden" name="id" value="" />
+						<div class="form-group">
+							<label class="col-sm-2 control-label">项目名称</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="ProjectName" placeholder="项目名称">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">排序</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="rank" placeholder="排序">
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//$('#ProjectManage-myModal').modal('show');
+
+	/*打开modal窗口*/
+	$(".modal_sub").click(function(){
+		var now_id = active();
+		$("#"+now_id+"-myModal").modal('show');
+	});
+
+    /*点击确定按钮*/
+	$(".modal .modal-footer button:last-child").click(function(){
+		var dom = $(this).parents(".modal");
+		Enter(dom);
+	});
+
+	$("#myTab li").click(function(){
+		setTimeout(function(){
+			search_data();
+		},50);
+	});
+
+	/*搜索按钮点击事件*/
+	$(".search-button").click(function(){
+		search_data();
+		return false;
+	});
+
+	var ZuoDay = getDates(((Date.parse(new Date()) / 1000) - 86400),2);
+	var mark_var = {};
+	mark_var[ZuoDay] = '昨天';
+	laydate.render({ 
+		elem: $('[name="RecordDay"]')[0],
+		type: 'date',
+		format: 'yyyy-MM-dd',
+		max:-1,
+		value: ZuoDay,
+		mark: mark_var
+
+	});
+
+	$('[name="Times"]').each(function(){
+		var dom = $(this)[0];
+		laydate.render({ 
+			elem: dom,
+			type: 'time',
+			format: 'HH:mm:ss',
+			range: true,
+			value: '00:00:00 - 23:59:59'
+		});
+	});
+});
+
+function Enter(dom){
+	var data = m_r_val(dom.find('.form-horizontal'),'input[type="hidden"],input[type="text"]','obj');
+
+	if(data.id == ''){
+		toastr.error("出错，ID为空，请联系技术");
+		return false;
+	}
+
+	if(data.RecordDay == null || data.RecordDay == ''){
+		toastr.error("录入日期不能为空");
+		return false;
+	}
+
+	data.RecordData = get_table_val(dom.find("table"), data.RecordDay);
+	if(data.RecordData){
+		if(data.RecordData.length<=0){
+			toastr.warning("录入的数值不能为空");
+			return false;
+		}else{
+			data.RecordData = JSON.stringify(data.RecordData);
+		}
+	}else{
+		return false;
+	}
+
+
+	data['operate'] = 'UpdateAdd';
+	post_data("/"+Action+"/"+active()+"Data/",data,dom,'0');
+
+}
+
+function get_table_val(dom,RecordDay){
+	var arr = new Array();
+	var a = 0;
+	var error = 0;
+	dom.find("tbody tr").each(function(r){
+		var id = $(this).attr("data-id");
+		if(id!=null){
+			var tr_data = m_r_val($(this),'input[type="text"]','obj');
+			var null_status = 0;
+			for(var i in tr_data){
+				if((i == 'Bi' || i == 'Click') && tr_data[i] != ''){
+					null_status = 1;
+
+					if(isNaN(tr_data[i])){
+						error = 1;
+						toastr.warning("第 "+(r+1)+" 行有非法字符，记录必须是数字");
+						return false;
+					}else if(parseInt(tr_data[i]) < 0){
+						error = 1;
+						toastr.warning("第 "+(r+1)+" 行 必须大于0");
+						return false;
+					}else if(i == 'Click' && parseInt(tr_data[i]) != tr_data[i]){
+						error = 1;
+						toastr.warning("第 "+(r+1)+" 行 点击必须是整数");
+						return false;
+					}
+				}
+			}
+
+			if(null_status == 1){
+				var Times_arr = tr_data['Times'].split(' - ');
+				tr_data['StartTime'] = Date.parse(new Date((RecordDay.replace("-","/") + " "+ Times_arr[0]))) / 1000;
+
+				tr_data['EndTime'] = Date.parse(new Date((RecordDay.replace("-","/") + " "+ Times_arr[1]))) / 1000;
+
+				if(tr_data['StartTime'] >= tr_data['EndTime']){
+					error = 1;
+					toastr.warning("第 "+(r+1)+" 行 时间段开始时间不能大于等于结束时间");
+					return false;
+				}else{
+					delete tr_data['Times'];
+				}
+
+				tr_data.TuiWebID = id;
+				arr[a] = tr_data;
+				a++;
+			}
+		}
+	});
+
+	if(error != 0){
+		return false;
+	}else{
+		return arr;
+	}
+}
+
+
+/*生成html*/
+function list_html(data){
+	var html = '';
+	if(data['list']!=null && data['list'].length>0){
+		for(var i=0;i<data['list'].length;i++){
+			html += '<tr data-id="'+data['list'][i]['id']+'"><td><input type="checkbox" /></td><td>'+data['list'][i]['id']+'</td><td>'+json_parse_val(data['list'][i]['ProjectInfo'],'ProjectName')+' - '+json_parse_val(data['list'][i]['PlatformInfo'],'PlatformName')+' - '+json_parse_val(data['list'][i]['HuInfo'],'HuName')+' - '+json_parse_val(data['list'][i]['WechatInfo'],'WechatName')+' - <a href="'+json_parse_val(data['list'][i]['TuiWebInfo'],'TuiWebUrl')+'" title="'+json_parse_val(data['list'][i]['TuiWebInfo'],'TuiWebUrl')+'" target="_about">'+json_parse_val(data['list'][i]['TuiWebInfo'],'TuiWebName')+'</a></td><td>'+getDates(data['list'][i]['StartTime'],2)+'</td><td>'+getDates(data['list'][i]['StartTime'],4) + ' - ' + getDates(data['list'][i]['EndTime'],4) + '</td><td><input type="text" class="td-input" name="Bi" data-value="'+data['list'][i]['Bi']+'" value="'+data['list'][i]['Bi']+'" disabled="disabled"></td><td><input type="text" class="td-input" name="Click" data-value="'+data['list'][i]['Click']+'" value="'+data['list'][i]['Click']+'" disabled="disabled"></td><td><input type="text" class="td-input" name="ps" data-value="'+data['list'][i]['ps']+'" value="'+data['list'][i]['ps']+'" disabled="disabled"></td><td>'+data['list'][i]['username']+'</td><td>'+getDates(data['list'][i]['addtime'],1)+'</td><td><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-cog"></i><span>编辑</span></button><button class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i><span>删除</span></button><button class="btn btn-warning btn-xs hidden"><i class="glyphicon glyphicon-remove"></i><span>取消</span></button><button class="btn btn-success btn-xs hidden"><i class="glyphicon glyphicon-ok"></i><span>确定</span></button></td></tr>';
+		}
+	}
+
+	append($(".tab-pane.active .tab-table"),html);
+
+	$(".tab-pane.active .page-wrap .page").html(data.page);
+	on();
+
+}
+
+/*搜索*/
+function search_data(data){
+	data = data != null ? data : {};
+	$('.tab-pane.active .search-box').find('input,select').each(function(){
+		var name = $(this).attr("name");
+		if(name != null && name != ''){
+			var tagName = $(this)[0].tagName;
+			var val = $(this).val();
+			val = (tagName == 'SELECT' && val == '')?"":val;
+			if(val != ''){
+				data[name] = val;
+			}
+		}
+	});
+
+	data.operate = 'page';
+	data.page = (data.page == null || data.page == '') ? 1 :data.page;
+	
+	post_data('/'+Action+'/'+active()+'Page/p/'+data.page,data,'','0');
+}
+
+/*加载数据*/
+search_data();
+
+
+function on(){
+	/*页数*/
+	$(".page a").off("click").click(function(e){
+		e.preventDefault();
+		var num = $(this).attr("href");
+		var arr = num.split("/");
+		num = arr.pop().replace(".html","");
+		if(num!='' && !isNaN(num)){
+			search_data({'page':num});
+			$(".tab-content-main").animate({scrollTop:0},300);
+		}
+	});
+
+	/*td按钮*/
+	$(".tab-table tbody tr td button").off("click").click(function(){
+		var button = $(this).text();
+		var data = {};
+		data.id = $(this).parents("tr").attr("data-id");
+		if(data.id!=''){
+			var dom = $(this).parents('tr').eq(0);
+			if(button=='编辑'){
+				dom.find('input[type="text"]').attr('disabled',false).removeClass('td-input').addClass('form-control');
+				dom.find('button:nth-child(1),button:nth-child(2)').addClass('hidden');
+				dom.find('button:nth-child(3),button:nth-child(4)').removeClass('hidden');
+
+			}else if(button=='取消'){
+				dom.find('input[type="text"]').each(function(){
+					var top_data = $(this).attr('data-value');
+					$(this).val(top_data).attr('disabled',true).addClass('td-input').removeClass('form-control');
+				});
+				dom.find('button:nth-child(1),button:nth-child(2)').removeClass('hidden');
+				dom.find('button:nth-child(3),button:nth-child(4)').addClass('hidden');
+			}else if(button=='确定'){
+				var error = 0;
+				dom.find('input[type="text"]').each(function(){
+					var name = $(this).attr('name');
+					if(name != null || name != ''){
+						var val = $(this).val();
+						if(name != 'ps'){
+							if(isNaN(val)){
+								error = 1;
+								toastr.warning("输入有非法字符，记录必须是数字");
+								return false;
+							}else if(parseInt(val) < 0){
+								error = 1;
+								toastr.warning("数值必须大于0");
+								return false;
+							}else if(name == 'Click' && parseInt(val) != val){
+								error = 1;
+								toastr.warning("点击必须是整数");
+								return false;
+							} 
+						}
+
+						if(val != ''){
+							data[name] = val;
+						}
+					}
+				});
+
+				if(error == 0){
+					data.operate = 'UpdateAdd';
+					post_data('/'+Action+'/'+active()+'Data/',data,$(this),'0');
+				}
+
+			}else if(button=='删除'){
+				var now_active = active();
+				if(confirm("确定删除吗？")){
+					data.operate = 'del';
+					post_data('/'+Action+'/'+active()+'Data/',data,$(this),'0');
+				}else{
+					return false;
+				}
+			}
+		}else{
+			toastr.error("获取的ID为空，无法操作，请联系技术人员");
+		}
+	});
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+    console.log(data);
+    //console.log(msg);
+    //console.log(dom);
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='page'){
+		list_html(msg);
+	}else if(data.operate=='UpdateAdd'){
+		dom.find('table br,code').remove();
+
+		if(msg['error']=='1'){
+			/*input全部清空*/
+			dom.find('table input[type="text"]').val("");
+
+			$('.modal').modal('hide');
+			setTimeout(function(){
+				/*获得当前页数*/
+				var page = $(".tab-pane.active .page-wrap .page .current").text();
+				page = (page != null && page != '' && !isNaN(page)) ? page : '1';
+				search_data({'page':page});
+
+				$(".tab-content-main").animate({scrollTop:0},300);
+			},0);
+		}else if(msg['error'] == '2'){
+
+			if(msg['repeat'] != null && msg['repeat'].length > 0){
+				for(var i in msg['repeat']){
+					dom.find('table tr[data-id="'+msg['repeat'][i]['TuiWebID']+'"] td:first-child').append('<br><code>'+msg['repeat'][i]['msg']+'</code>');
+				}
+			}
+			alert("录入失败，有重复录入，请核实");
+		}
+	}else if(data.operate=='status'){
+		if(msg['error']=='1'){
+			var html = dom.html();
+			if(msg.status=='0'){
+				html = html.replace("启用","停用");
+				html = html.replace("glyphicon-play","glyphicon-stop");
+			}else{
+				html = html.replace("停用","启用");
+				html = html.replace("glyphicon-stop","glyphicon-play");
+			}
+			dom.html(html);
+			dom.parents("tr").children("td.status").html(msg.status=='0'?"正常":"停用");
+
+		}
+	}else if(data.operate=='Get'){
+		if(msg['error']=='1'){
+
+			var now_active = active();
+
+			var dom = $("#"+now_active+"-UpdateModal .form-horizontal");
+
+			dom.find('input[type="text"],input[type="hidden"],textarea,select').each(function(){
+				var name = $(this).attr("name");
+				if(name != undefined){
+					$(this).val(updata_get_data(name,msg));
+				}
+			});
+
+			$('#'+active()+'-UpdateModal').modal('show');
+		}
+	}else if(data.operate=='del'){
+		if(msg['error']=='1'){
+			dom.parents("tr").hide(500);
+		}
+	}
+}
+
+function XiaoHtml(){
+	var html = '';
+	for(var i in AllTuiWeb){
+		html += '<tr data-id="'+AllTuiWeb[i]['id']+'"><td>'+js_val(AllProject,'id',AllTuiWeb[i]['ProjectID'],'ProjectName')+' - '+js_val(AllPlatform,'id',AllTuiWeb[i]['PlatformID'],'PlatformName')+' - '+js_val(AllHu,'id',AllTuiWeb[i]['HuID'],'HuName')+' - '+js_val(AllWechat,'WechatID',AllTuiWeb[i]['WechatID'],'WechatName')+' - <a href="'+AllTuiWeb[i]['TuiWebUrl']+'" title="'+AllTuiWeb[i]['TuiWebUrl']+'" target="_about">'+AllTuiWeb[i]['TuiWebName']+'</a></td><td><input type="text" class="td-input" name="Times"></td><td><input type="text" class="td-input" name="Bi"></td><td><input type="text" class="td-input" name="Click"></td><td><input type="text" class="td-input" name="ps"></td></tr>';
+	}
+
+	$('#RecordXiao-myModal table tbody').html(html);
+}
+							
+XiaoHtml();
+
+/*根据ID，计算名称*/
+function js_val(data,key,val,keys){
+	var str = '未知';
+	try{
+		for(var i in data){
+			if(data[i][key] == val){
+				str = data[i][keys];
+				break;
+			}
+		}
+	}catch(e){}
+
+	return str;
+}
+
+/*获取已选*/
+function checkbox(dom){
+	var che_arr = new Array();
+	var che_i = 0;
+	dom.find('input[type="checkbox"]').each(function(){
+		if($(this).prop('checked')){
+			che_arr[che_i] = $(this).val();
+			che_i++;
+		}
+	});
+	return che_arr;
+}
+
+/*返回modal里面的值*/
+function m_r_val(id,type,fs){
+	if(fs=='obj'){
+		var data = {};
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				val = $(this).val();
+				data[name] = val;
+			}
+		});
+	}else if(fs=='arr'){
+		var data =  new Array();
+		var i = 0;
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				var val = $(this).val();
+				data[i] = [name,val];
+				i++;
+			}
+		});
+	}
+
+	return data;
+}
+
+/*添加内容到table里面*/
+function append(dom,html){
+	if(html==''){
+		var td_num = dom.find("thead tr td").length;
+		html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+	}
+	dom.children("tbody").html(html);
+}
+
+/*编辑model框获取数据*/
+function updata_get_data(name,data){
+	var val = '';
+	if(data!=null && data){
+		for(var i in data){
+			if(i == name){
+				return data[i];
+			}
+		}
+	}
+	return val;
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+/*加载数据*/
+//post_data("/"+Action+"/"+active()+"Page/",{"operate":'page'},'','0');
+
+
+
+/*toastr配置*/
+//toastr.options = {positionClass: "toast-top-center"};
+
+/*读取字串符json数据*/
+function json_parse_val(obj,key){
+	var val = "未知";
+	try{
+		if(obj!=''){
+			obj = JSON.parse(obj);
+			if(obj[key]!=null){
+				val = obj[key];
+			}
+		}
+	}catch(e){}
+
+	return val;
+}
+
+function nulls(obj){
+	if(obj != null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+/*读取对象值*/
+function get_obj_val(obj,name,str){
+	val = '';
+
+	arr = name.split(".");
+	if(arr.length == 1){
+		val = !nulls(obj[arr[0]])?obj[arr[0]]:"";
+	}else if(arr.length == 2){
+		val = (!nulls(obj[arr[0]]) && !nulls(obj[arr[0]][arr[1]]))?obj[arr[0]][arr[1]]:"";
+	}else if(arr.length == 3){
+		val = (!nulls(obj[arr[0]]) && !nulls(obj[arr[0]][arr[1]]) && !nulls(obj[arr[0]][arr[1]][arr[2]]))?obj[arr[0]][arr[1]][arr[2]]:"";
+	}
+
+	val = (val=='' && str != undefined && str!='')?str:val;
+
+	return val;
+}
+
+
+/*获得当前显示的tabID*/
+function active(){
+	var id = $(".tab-pane.active").attr("id");
+	return id;
+}
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+</script>

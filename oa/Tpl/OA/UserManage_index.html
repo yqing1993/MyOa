@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+var AllDepartment = <?php echo (!empty($AllDepartment)?json_encode($AllDepartment):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>用户管理</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-user"></i>
+				<span>用户管理</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs">
+				    <li class="active">
+				        <a href="#home" data-toggle="tab">用户管理</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+				    <div class="tab-pane in active" id="home">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+							<button class="button-green border-box" data-toggle="modal" id="modal_sub">
+								<i class="glyphicon glyphicon-plus"></i>
+								<span>添加用户</span>
+							</button>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table user-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>ID</td>
+										<td>排序</td>
+										<td>姓名</td>
+										<td>用户名</td>
+										<td>角色</td>
+										<td>添加时间</td>
+										<td>状态</td>
+										<td>操作</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+				    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					添加用户
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">用户名</label>
+							<div class="col-sm-6">
+								<input type="hidden" name="id" value="new" />
+								<input type="text" class="form-control" name="userid" autocomplete="off" placeholder="用户名">
+								<div class="checkbox">
+									<span style="color:#999;font-size:12px;">提示：用户名提交之后<code>不可修改</code></span>
+								</div>
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">真实姓名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="username" utocomplete="off" placeholder="真实姓名">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">密码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="password" autocomplete="off" placeholder="密码">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">MAC</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="mac" placeholder="MAC">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="MacSwitch"> 免MAC验证
+									</label>
+									<span style="color:#ccc;font-size: 12px;">多个MAC地址可用逗号分隔<br />提示：由于编码问题，<code>MAC地址不能直接从钉钉聊天窗口复制，</code>可粘贴到文本文档，再复制粘贴到该输入框</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属部门</label>
+							<div class="col-sm-6">
+								<select class="form-control" name="DepartmentID">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">职位</label>
+							<div class="col-sm-10">
+								<foreach name="Duty" key="key" item="vo">
+									<label class="radio-inline">
+										<input type="radio" name="Duty" value="{$key}" <if condition="$key eq 'yg'">checked="checked"</if>> <span>{$vo}</span>
+									</label>
+								</foreach>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">排序</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="rank" placeholder="排序">
+							</div>
+						</div>
+
+						<div class="form-group role-box">
+							<label for="lastname" class="col-sm-2 control-label">所属角色</label>
+							<div class="col-sm-10">
+								<foreach name="AllRole" item="vo">
+									<label class="checkbox-inline">
+										<input type="checkbox" name="role" value="{$vo.id}"> <span>{$vo.RoleName}</span>
+									</label>
+								</foreach>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					编辑用户
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">用户名</label>
+							<div class="col-sm-6">
+								<input type="hidden" name="id" value="new" />
+								<input type="text" class="form-control" name="userid" placeholder="用户名" disabled="disabled">
+								<div class="checkbox">
+									<span style="color:#999;font-size:12px;">提示：用户名<code>不可修改</code></span>
+								</div>
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">真实姓名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="username" placeholder="真实姓名">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">密码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="password" placeholder="密码">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">MAC</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="mac" placeholder="MAC">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="MacSwitch"> 免MAC验证
+									</label>
+									<span style="color:#ccc;font-size: 12px;">多个MAC地址可用逗号分隔<br />提示：由于编码问题，<code>MAC地址不能直接从钉钉聊天窗口复制，</code>可粘贴到文本文档，再复制粘贴到该输入框</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">所属部门</label>
+							<div class="col-sm-6">
+								<select class="form-control" name="DepartmentID">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">职位</label>
+							<div class="col-sm-10">
+								<foreach name="Duty" key="key" item="vo">
+									<label class="radio-inline">
+										<input type="radio" name="Duty" value="{$key}" <if condition="$key eq 'yg'">checked="checked"</if>> <span>{$vo}</span>
+									</label>
+								</foreach>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="firstname" class="col-sm-2 control-label">排序</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="rank" placeholder="排序">
+							</div>
+						</div>
+
+						<div class="form-group role-box">
+							<label for="lastname" class="col-sm-2 control-label">所属角色</label>
+							<div class="col-sm-10">
+								<foreach name="AllRole" item="vo">
+									<label class="checkbox-inline">
+										<input type="checkbox" name="role" value="{$vo.id}"> <span>{$vo.RoleName}</span>
+									</label>
+								</foreach>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript" src="/public/js/md5.js"></script>
+<script type="text/javascript">
+var Action = 'UserManage';
+$(document).ready(function(){
+	//$('#myModal').modal('show');
+	/*打开modal窗口*/
+	$("#modal_sub").click(function(){
+		$("#modal_sub").find("input").val();
+		$('#myModal').modal('show');
+	});
+
+    /*点击确定按钮*/
+	$(".modal .modal-footer button:last-child").click(function(){
+		var id = $(this).parents(".modal").attr("id");
+		Enter(id);
+	});
+
+	/*点击全部，隐藏显示*/
+	$('.modal .form-horizontal input[type="checkbox"][value="all"]').parent().click(function(){
+		if($(this).children('input[value="all"]').prop("checked")){
+			$(this).parent().find('input[type="checkbox"]').prop("checked",true);
+		}else{
+			$(this).parent().find('input[type="checkbox"]').prop("checked",false);
+		}
+	});
+
+	$('.modal .form-horizontal input[type="checkbox"]:not([value="all"])').change(function(){
+		var dom = $(this).parent().parent();
+		if($(this).prop("checked")){
+			var status = 0;
+			dom.find('input[type="checkbox"]:not([value="all"])').each(function(){
+				if(!$(this).prop('checked')){
+					status = 1;
+				}
+			});
+
+			if(status == 1){
+				dom.find('input[type="checkbox"][value="all"]').prop('checked',false);
+			}else{
+				dom.find('input[type="checkbox"][value="all"]').prop('checked',true);
+			}
+		}else{
+			dom.find('input[type="checkbox"][value="all"]').prop('checked',false);
+		}
+	});
+});
+
+function Enter(id){
+
+	var data = m_r_val($("#"+id+" .form-horizontal"),'input[type="hidden"],input[type="text"],select','obj');
+
+	if(data.id == ''){
+		toastr.error("出错，ID为空，请联系技术");
+		return false;
+	}
+
+	if(data.userid == ''){
+		toastr.warning("用户名不能为空");
+		return false;
+	}
+
+	if(data.username == ''){
+		toastr.warning("真实姓名不能为空");
+		return false;
+	}
+
+	if(data.id =='new' && data.password == ''){
+		toastr.warning("密码不能为空");
+		return false;
+	}
+
+	if(data.password != ''){
+		data.password = hex_md5(data.password);
+	}
+
+	if(data.mac != ''){
+		data.mac = data.mac.replace(/\，/g,",");
+		data.mac = data.mac.replace(/\s/g,"");
+	}
+
+	/*免MAC验证*/
+	data.MacSwitch = 0;
+	if($('#'+id+' .form-horizontal input[name="MacSwitch"]').prop("checked")){
+		data.MacSwitch = 1;
+	}
+
+	/*所属部门*/
+	if(data.DepartmentID == null || data.DepartmentID == ''){
+		toastr.error("请选择所属部门");
+		return false;
+	}
+
+	/*职位*/
+	data.Duty = $("#"+id+" .form-horizontal").find('input[name="Duty"]:checked').val();
+	if(data.Duty == null || data.Duty == ''){
+		toastr.error("请选择职位");
+		return false;
+	}
+
+	/*排序必须是数字*/
+	if(data.rank != '' && isNaN(data.rank)){
+		toastr.warning("排序必须是数字");
+		return false;
+	}
+
+	/*获取角色*/
+	var role_arr = checkbox($("#"+id+" .form-horizontal").find('input[name="role"]'));
+	if(role_arr.length==0){
+		toastr.warning("请选择所属角色");
+		return false;
+	}
+	data.role = JSON.stringify(role_arr);
+
+	data['operate'] = 'UpdateAdd';
+	post_data("/"+Action+"/Data/",data,'','');
+}
+
+/*获取已选*/
+function checkbox(dom){
+	var che_arr = new Array();
+	var che_i = 0;
+	dom.each(function(){
+		if($(this).prop('checked')){
+			che_arr[che_i] = $(this).val();
+			if(che_arr[che_i] == 'all'){
+				return false;
+			}
+			che_i++;
+		}
+	});
+	return che_arr;
+}
+
+/*返回modal里面的值*/
+function m_r_val(id,type,fs){
+	if(fs=='obj'){
+		var data = {};
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				val = $(this).val();
+				data[name] = val;
+			}
+		});
+	}else if(fs=='arr'){
+		var data =  new Array();
+		var i = 0;
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				var val = $(this).val();
+				data[i] = [name,val];
+				i++;
+			}
+		});
+	}
+
+	return data;
+}
+
+/*生成html*/
+function list_html(data){
+	var html = '';
+	if(data['list']!=null && data['list'].length>0){
+		for(var i=0;i<data['list'].length;i++){
+
+			html += '<tr data-id="'+data['list'][i]['id']+'"><td><input type="checkbox" /></td><td>'+data['list'][i]['id']+'</td><td>'+data['list'][i]['rank']+'</td><td>'+data['list'][i]['username']+'</td><td>'+data['list'][i]['userid']+'</td><td>'+(data['list'][i]['RoleName']!=undefined?data['list'][i]['RoleName']:"")+'</td><td>'+getDates(data['list'][i]['addtime'],1)+'</td><td class="status">'+(data['list'][i]['status']=='0'?'正常':'停用')+'</td><td><button class="btn btn-info btn-xs"><i class="glyphicon '+(data['list'][i]['status']=='0'?'glyphicon-stop':'glyphicon-play')+'"></i><span>'+(data['list'][i]['status']=='0'?'停用':'启用')+'</span></button><button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-cog"></i><span>编辑</span></button><button class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i><span>删除</span></button></td></tr>';
+
+
+		}
+	}
+
+	append($(".user-table"),html);
+
+	$(".tab-pane.active").find('.page-wrap .page').html(data.page);
+	on();
+
+}
+
+/*添加内容到table里面*/
+function append(dom,html){
+	if(html==''){
+		var td_num = dom.find("thead tr td").length;
+		html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+	}
+	dom.children("tbody").html(html);
+}
+
+function on(){
+	/*页数*/
+	$(".page a").off("click").click(function(e){
+		e.preventDefault();
+		var num = $(this).attr("href");
+		var arr = num.split("/");
+		num = arr.pop().replace(".html","");
+		if(num!='' && !isNaN(num)){
+			post_data('/'+Action+'/Page/p/'+num,{"operate":'page'},'','');
+			$(".tab-content-main").animate({scrollTop:0},300);
+		}
+	});
+
+	/*td按钮*/
+	$(".tab-table tbody tr td button").off("click").click(function(){
+		var button = $(this).text();
+		var data = {};
+		data.id = $(this).parents("tr").attr("data-id");
+		if(data.id!=''){
+			if(button=='启用' || button=='停用'){
+				var status = button=='启用'?'0':'1';
+				data.operate = 'status';
+				data.database = 'user';
+				data['status'] = status;
+				post_data('/'+Action+'/Data/',data,$(this),'');
+			}else if(button=='编辑'){
+				data.operate = 'Get';
+				post_data('/'+Action+'/Data/',data,$(this),'0');
+			}else if(button=='删除'){
+				if(confirm("确定删除吗？")){
+					data.operate = 'del';
+					post_data('/'+Action+'/Data/',data,$(this),'');
+				}else{
+					return false;
+				}
+			}
+		}else{
+			toastr.error("获取的ID为空，无法操作，请联系技术人员");
+		}
+	});
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='page'){
+		list_html(msg);
+	}else if(data.operate=='UpdateAdd'){
+		if(msg['error']=='1'){
+			$('.modal').modal('hide');
+			setTimeout(function(){
+				post_data("/"+Action+"/Page/",{"operate":'page'},'','');
+			},1000);
+		}
+	}else if(data.operate=='status'){
+		if(msg['error']=='1'){
+			var html = dom.html();
+			if(msg.status=='0'){
+				html = html.replace("启用","停用");
+				html = html.replace("glyphicon-play","glyphicon-stop");
+			}else{
+				html = html.replace("停用","启用");
+				html = html.replace("glyphicon-stop","glyphicon-play");
+			}
+			dom.html(html);
+			dom.parents("tr").children("td.status").html(msg.status=='0'?"正常":"停用");
+
+		}
+	}else if(data.operate=='Get'){
+		if(msg['error']=='1'){
+			$("#UpdateModal .form-horizontal").find('input[type="text"],input[type="hidden"]').each(function(){
+				var name = $(this).attr("name");
+				if(name != undefined && name != 'password'){
+					$(this).val(updata_get_data(name,msg));
+				}
+			});
+
+			/*免MAC登陆勾选*/
+			if(msg['MacSwitch']=='1'){
+				$('#UpdateModal .form-horizontal input[name="MacSwitch"]').prop("checked",true);
+			}
+
+			/*角色勾选*/
+			$('#UpdateModal .form-horizontal .role-box').find('input').prop('checked',false);
+			if(msg['role']!=''){
+				msg['role'] = JSON.parse(msg['role']);
+				if(msg['role'] != null && msg['role'].length>0){
+					for(var ii=0; ii<msg['role'].length; ii++){
+						$('#UpdateModal .form-horizontal .role-box').find('input[value="'+msg['role'][ii]+'"]').prop('checked',true);
+					}
+				}
+			}
+
+			/*部门选定*/
+			$('#UpdateModal .form-horizontal').find('select[name="DepartmentID"]').val(msg['DepartmentID']);
+
+			/*职位选择*/
+			$('#UpdateModal .form-horizontal').find('input[name="Duty"][value="yg"]').prop('checked',true);
+			if(msg['Duty']!=null && msg['Duty']!=''){
+				$('#UpdateModal .form-horizontal').find('input[name="Duty"][value="'+msg['Duty']+'"]').prop('checked',true);
+			}
+
+			$('#UpdateModal').modal('show');
+			on();
+		}
+	}else if(data.operate=='del'){
+		dom.parents("tr").hide(500);
+	}
+}
+
+/*生成部门select*/
+function organize_select_html(data,s){
+	var html = '';
+	if(data != null && data.length>0){
+		s = s == ''?'&nbsp':(s + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		for(var i=0;i<data.length;i++){
+
+			var zi_html = organize_select_html(data[i]['zi'],s);
+			html += '<option value="'+data[i]['id']+'">'+s+'┣ '+data[i]['DepartmentName']+'</option>'+zi_html;
+
+		}
+	}
+	return html;
+}
+/*生成部门select*/
+var html = organize_select_html(AllDepartment,'');
+$('select[name="DepartmentID"]').html(html);
+
+/*编辑model框获取数据*/
+function updata_get_data(name,data){
+	var val = '';
+	if(data!=null && data){
+		for(var i in data){
+			if(i == name){
+				return data[i];
+			}
+		}
+	}
+	return val;
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*加载数据*/
+post_data("/"+Action+"/Page/",{"operate":'page'},'','0');
+
+/*toastr配置*/
+//toastr.options = {positionClass: "toast-top-center"};
+
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+
+/*首行冻结*/
+$('.tab-content-main').scroll(function() {
+
+	var header_height = $(".tab .tab-header-wrap").height();
+	var thead_top = $('.tab-pane.active .tab-table tbody').prev().offset().top;
+	var scrollTop = $(this).scrollTop() || $(this).get(0).scrollTop;
+	
+	var fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	if(fixTable.length){
+		if(thead_top <= header_height){
+			fixTable.css('top',(scrollTop-(scrollTop+thead_top)+header_height)+'px');
+		}else{
+			fixTable.css('top','0px');
+		}
+	}else{
+		var table_html = $(".tab-pane.active .tab-table").attr("class");
+		var thead_html = $(".tab-pane.active .tab-table thead").html();
+		html = '<table class="'+table_html+' fixTable"><thead>'+thead_html+'</thead></table>';
+		$(".tab-pane.active .tab-pane-content .tab-table").before(html);
+		fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	}
+});
+</script>

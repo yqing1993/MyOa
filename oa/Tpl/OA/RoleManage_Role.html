@@ -1,0 +1,750 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/public/css/common.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/oa.css" type="text/css" />
+<link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/toastr.min.css" type="text/css" />
+<script type="text/javascript" src="/public/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/public/js/common.js"></script>
+<script type="text/javascript" src="/public/js/laydate.js"></script>
+<script type="text/javascript">
+var module = <?php echo (!empty($module)?json_encode($module):'""');?>;
+var functions = <?php echo (!empty($function)?json_encode($function):'""');?>;
+var AllDepartment = <?php echo (!empty($AllDepartment)?json_encode($AllDepartment):'""');?>;
+</script>
+<style>
+html,body,.tab,.tab-content-wrap,.tab-content-main {height:100%;}
+</style>
+<title>角色管理</title>
+</head>
+
+<body>
+
+<div class="tab">
+	<div class="tab-header-wrap">
+		<div class="tab-header clearfix">
+			<div class="title">
+				<i class="glyphicon glyphicon-eye-close"></i>
+				<span>角色管理</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab-content-wrap">
+		<div class="tab-content-main">
+			<div class="main-content">
+
+				<ul id="myTab" class="nav nav-tabs">
+				    <li class="active">
+				        <a href="#home" data-toggle="tab">角色管理</a>
+				    </li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+				    <div class="tab-pane in active" id="home">
+				    	<div class="tab-pane-title clearfix">
+				    		<span></span>
+							<button class="button-green border-box" data-toggle="modal" id="modal_sub">
+								<i class="glyphicon glyphicon-plus"></i>
+								<span>添加角色</span>
+							</button>
+				    	</div>
+
+				    	<div class="tab-pane-content">
+				    		<table class="tab-table role-table">
+				    			<thead>
+									<tr>
+										<td><input type="checkbox" /></td>
+										<td>ID</td>
+										<td>角色名称</td>
+										<td>模块权限</td>
+										<td>功能权限</td>
+										<td>添加时间</td>
+										<td>状态</td>
+										<td>操作</td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+				    		</table>
+				    	</div>
+
+				    	<div class="page-wrap clearfix">
+							<div class="page">
+
+							</div>
+				    	</div>
+				    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="width:80%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					添加角色
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<input type="hidden" name="id" value="new" />
+							<label for="firstname" class="col-xs-1 control-label">角色名称</label>
+							<div class="col-xs-6">
+								<input type="text" class="form-control" name="RoleName" placeholder="角色名称">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="lastname" class="col-xs-1 control-label">模块权限</label>
+							<div class="col-xs-11">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="module" value="all"> 全选
+								</label>
+								<br />
+								<foreach name="module" key="key" item="vo">
+									<label class="checkbox-inline" style="padding-left:0;padding-top:10px;color:#333;font-weight:bold;">{$key}</label><br />
+									<foreach name="vo" key="key1" item="voo">
+										<div class="checkbox-inline">
+											<label class="checkbox-inline" style="padding:0;"><input type="checkbox" name="module" value="{$key1}"> {$voo}</label>
+											<br />
+											<label class="checkbox-inline" style="padding:0;color:#999;font-size:12px;line-height: 1.6;"><input type="checkbox" name="VerifyMac" value="1" disabled="disabled"> 验证MAC</label>
+										</div>
+									</foreach>
+									<br />
+								</foreach>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="lastname" class="col-xs-1 control-label">功能权限</label>
+							<div class="col-xs-11">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="function" value="all"> 全选
+								</label>
+								<br />
+								<foreach name="function" key="key" item="vo">
+									<div class="checkbox-inline">
+										<label class="checkbox-inline" style="padding:0;"><input type="checkbox" name="function" value="{$key1}"> {$vo}</label>
+										<br />
+										<label class="checkbox-inline" style="padding:0;color:#999;font-size:12px;line-height: 1.6;"><input type="checkbox" name="VerifyMac" value="1" disabled="disabled"> 验证MAC</label>
+									</div>
+								</foreach>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" style="width:80%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					角色编辑
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body-content">
+					
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<input type="hidden" name="id" value="" />
+							<label for="firstname" class="col-xs-1 control-label">角色名称</label>
+							<div class="col-xs-6">
+								<input type="text" class="form-control" name="RoleName" placeholder="角色名称">
+								<div class="bitian">*</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="lastname" class="col-xs-1 control-label">模块权限</label>
+							<div class="col-xs-11">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="module" value="all"> 全选
+								</label>
+								<br />
+								<foreach name="module" key="key" item="vo">
+									<label class="checkbox-inline" style="padding-left:0;padding-top:10px;color:#333;font-weight:bold;">{$key}</label><br />
+									<foreach name="vo" key="key1" item="voo">
+										<div class="checkbox-inline">
+											<label class="checkbox-inline" style="padding:0;"><input type="checkbox" name="module" value="{$key1}"> {$voo}</label>
+											<br />
+											<label class="checkbox-inline" style="padding:0;color:#999;font-size:12px;line-height: 1.6;"><input type="checkbox" name="VerifyMac" value="1" disabled="disabled"> 验证MAC</label>
+										</div>
+									</foreach>
+									<br />
+								</foreach>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="lastname" class="col-xs-1 control-label">功能权限</label>
+							<div class="col-xs-11">
+								<label class="checkbox-inline">
+									<input type="checkbox" name="function" value="all"> 全选
+								</label>
+								<br />
+								<foreach name="function" key="key" item="vo">
+									<div class="checkbox-inline">
+										<label class="checkbox-inline" style="padding:0;"><input type="checkbox" name="function" value="{$key1}"> {$vo}</label>
+										<br />
+										<label class="checkbox-inline" style="padding:0;color:#999;font-size:12px;line-height: 1.6;"><input type="checkbox" name="VerifyMac" value="1" disabled="disabled"> 验证MAC</label>
+									</div>
+								</foreach>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-success">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tishi"></div>
+<div class="J-bg" id="J-bg">
+    <div class="J-bg-loading"></div>
+    <div class="J-bg-con"></div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="/public/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/public/js/toastr.min.js"></script>
+<script type="text/javascript" src="/public/js/md5.js"></script>
+<script type="text/javascript">
+var Action = 'RoleManage';
+$(document).ready(function(){
+	//$('#myModal').modal('show');
+
+	/*打开modal窗口*/
+	$("#modal_sub").click(function(){
+		$("#modal_sub").find("input").val();
+		$('#myModal').modal('show');
+	});
+
+    /*点击确定按钮*/
+	$(".modal .modal-footer button:last-child").click(function(){
+		var id = $(this).parents(".modal").attr("id");
+		Enter(id);
+	});
+
+	/*点击全部，隐藏显示*/
+	$('.modal input[type="checkbox"][value="all"]').off("change").change(function(){
+		var name = $(this).attr("name");
+		if(name != null){
+			if($(this).prop("checked")){
+				$(this).parents('.modal').find('input[name="'+name+'"][type="checkbox"]').prop("checked",true);
+
+				$(this).parents('.modal').find('input[name="'+name+'"][value="all"]').parent().parent().find('input[name="VerifyMac"]').prop("checked",false).prop('disabled',false);
+			}else{
+				$(this).parents('.modal').find('input[name="'+name+'"][type="checkbox"]').prop("checked",false);
+				$(this).parents('.modal').find('input[name="'+name+'"][value="all"]').parent().parent().find('input[name="VerifyMac"]').prop("checked",false).prop('disabled',true);
+			}
+		}
+	});
+
+	$('.modal input[type="checkbox"]:not([name="VerifyMac"],[value="all"])').off("change").change(function(){
+		var name = $(this).attr("name");
+		if($(this).prop("checked")){
+			var status = 0;
+			$(this).parents('.modal').find('input[name="'+name+'"][type="checkbox"]:not([value="all"])').each(function(){
+				if(!$(this).prop('checked')){
+					status = 1;
+				}
+			});
+
+			if(status == 1){
+				$(this).parents('.modal').find('input[name="'+name+'"][type="checkbox"][value="all"]').prop('checked',false);
+			}else{
+				//dom.find('input[type="checkbox"][value="all"]').prop('checked',true);
+			}
+
+			$(this).parent().parent().find('input[name="VerifyMac"]').prop("disabled",false);
+		}else{
+			$(this).parents('.modal').find('input[name="'+name+'"][type="checkbox"][value="all"]').prop('checked',false);
+			$(this).parent().parent().find('input[name="VerifyMac"]').prop('checked',false).prop("disabled",true);
+		}
+	});
+
+	$('.modal input[name="VerifyMac"]').off("change").change(function(){
+		if($(this).prop("checked")){
+			$(this).parents(".col-xs-11").find('input[value="all"]').prop('checked',false);
+		}
+	});
+});
+
+function Enter(id){
+	var dom = $("#"+id+" .form-horizontal");
+
+	var data = m_r_val(dom,'input[type="hidden"],input[type="text"]','obj');
+
+	if(data.id == ''){
+		toastr.error("出错，ID为空，请联系技术");
+		return false;
+	}
+
+	if(data.RoleName == ''){
+		toastr.warning("角色名称不能为空");
+		return false;
+	}
+
+	/*获取功能模块*/
+	var module_arr = checkbox(dom.find('input[name="module"]'));
+	module_arr = NotMac(module_arr,dom.find('input[name="module"]'));
+	data.module = module_arr.length > 0 ? JSON.stringify(module_arr) : '';
+
+	/*获取功能权限*/
+	var function_arr = checkbox($("#"+id+" .form-horizontal").find('input[name="function"]'));
+	function_arr = NotMac(function_arr,dom.find('input[name="function"]'));
+	data.function = function_arr.length > 0 ? JSON.stringify(function_arr) : '';
+
+	data['operate'] = 'UpdateAdd';
+	post_data("/"+Action+"/Data/",data,'','');
+}
+
+/*获取验证MAC*/
+function NotMac(arr,dom){
+	var NewArr = new Array();
+	var n = 0;
+	if(arr.length > 0){
+		for(var i=0;i<arr.length;i++){
+			var VerifyMac = dom.parent().find('input[value="'+arr[i]+'"]').parent().parent().find('input[name="VerifyMac"]:checked').val();
+			 NewArr[n] = [arr[i],((VerifyMac!=null && NotMac!='') ? '1' : '0')];
+			 n++;
+		}
+	}
+	return NewArr;
+}
+
+/*获取已选*/
+function checkbox(dom){
+	var che_arr = new Array();
+	var che_i = 0;
+	dom.each(function(){
+		if($(this).prop('checked')){
+			che_arr[che_i] = $(this).val();
+			if(che_arr[che_i] == 'all'){
+				return false;
+			}
+			che_i++;
+		}
+	});
+	return che_arr;
+}
+
+/*返回modal里面的值*/
+function m_r_val(id,type,fs){
+	if(fs=='obj'){
+		var data = {};
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				val = $(this).val();
+				data[name] = val;
+			}
+		});
+	}else if(fs=='arr'){
+		var data =  new Array();
+		var i = 0;
+		id.find(type).each(function(){
+			var name = $(this).attr("name");
+			if(name!=undefined && name!=''){
+				var val = $(this).val();
+				data[i] = [name,val];
+				i++;
+			}
+		});
+	}
+
+	return data;
+}
+
+/*生成html*/
+function list_html(data){
+	var html = '';
+	if(data['list']!=null && data['list'].length>0){
+		for(var i=0;i<data['list'].length;i++){
+
+			/*模块名称生成数组*/
+			var module_arr = new Array();
+			var m_i = 0;
+			if(data['list'][i]['module']!=''){
+				data['list'][i]['module'] = JSON.parse(data['list'][i]['module']);
+				if(data['list'][i]['module']!=null && data['list'][i]['module'].length>0){
+					for(var m=0;m<data['list'][i]['module'].length;m++){
+						for(var zm in module){
+							module_arr[m_i] = get_obj_val(module[zm],data['list'][i]['module'][m][0]);
+							if(module_arr[m_i] != ''){
+								break;
+							}
+						}
+						m_i++;
+					}
+				}
+			}
+
+			/*功能名称生成数组*/
+			var function_arr = new Array();
+			var f_i = 0;
+			if(data['list'][i]['function']!=''){
+				data['list'][i]['function'] = JSON.parse(data['list'][i]['function']);
+				if(data['list'][i]['function']!=null && data['list'][i]['function'].length>0){
+					for(var f=0;f<data['list'][i]['function'].length;f++){
+						function_arr[f_i] = get_obj_val(functions,data['list'][i]['function'][f][0]);
+						f_i++;
+					}
+				}
+			}
+
+			html += '<tr data-id="'+data['list'][i]['id']+'">' +
+				'<td><input type="checkbox" /></td>' +
+				'<td>'+data['list'][i]['id']+'</td>' +
+				'<td>'+data['list'][i]['RoleName']+'</td>' +
+				'<td>'+module_arr.join("，")+'</td>' +
+				'<td>'+function_arr.join("，")+'</td>' +
+				'<td>'+getDates(data['list'][i]['addtime'],1)+'</td>' +
+				'<td class="status">'+(data['list'][i]['status']=='0'?'正常':'停用')+'</td>' +
+				'<td>' +
+				'<button class="btn btn-info btn-xs"><i class="glyphicon '+(data['list'][i]['status']=='0'?'glyphicon-stop':'glyphicon-play')+'"></i><span>'+(data['list'][i]['status']=='0'?'停用':'启用')+'</span></button>' +
+				'<button class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-cog"></i><span>编辑</span></button>' +
+				'<button class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i><span>删除</span></button>' +
+				'</td></tr>';
+
+
+		}
+	}
+	append($(".role-table"),html);
+
+	$(".tab-pane.active").find('.page-wrap .page').html(data.page);
+	on();
+
+}
+
+/*添加内容到table里面*/
+function append(dom,html){
+	if(html==''){
+		var td_num = dom.find("thead tr td").length;
+		html = '<tr><td class="table-null" colspan="'+td_num+'"><i class="glyphicon glyphicon-question-sign"></i><span>暂无数据</span></td></tr>';
+	}
+	dom.children("tbody").html(html);
+}
+
+function on(){
+	/*页数*/
+	$(".page a").off("click").click(function(e){
+		e.preventDefault();
+		var num = $(this).attr("href");
+		var arr = num.split("/");
+		num = arr.pop().replace(".html","");
+		if(num!='' && !isNaN(num)){
+			post_data('/'+Action+'/Page/p/'+num,{"operate":'page'},'','');
+			$(".tab-content-main").animate({scrollTop:0},300);
+		}
+	});
+
+	/*td按钮*/
+	$(".tab-table tbody tr td button").off("click").click(function(){
+		var button = $(this).text();
+		var data = {};
+		data.id = $(this).parents("tr").attr("data-id");
+		if(data.id!=''){
+			if(button=='启用' || button=='停用'){
+				var status = button=='启用'?'0':'1';
+				data.operate = 'status';
+				data.database = 'role';
+				data['status'] = status;
+				post_data('/'+Action+'/Data/',data,$(this),'');
+			}else if(button=='编辑'){
+				data.operate = 'Get';
+				post_data('/'+Action+'/Data/',data,$(this),'0');
+			}else if(button=='删除'){
+				if(confirm("确定删除吗？")){
+					data.operate = 'del';
+					post_data('/'+Action+'/Data/',data,$(this),'');
+				}else{
+					return false;
+				}
+			}
+		}else{
+			toastr.error("获取的ID为空，无法操作，请联系技术人员");
+		}
+	});
+}
+
+/*处理返回的msg数据*/
+function msg_chuli(data,msg,dom){
+	chuli("");
+
+	if(msg['msg'] != undefined){
+		show_msg(msg);
+	}
+
+	if(data.operate=='page'){
+		list_html(msg);
+	}else if(data.operate=='UpdateAdd'){
+		if(msg['error']=='1'){
+			$('.modal').modal('hide');
+			setTimeout(function(){
+				post_data("/"+Action+"/Page/",{"operate":'page'},'','');
+			},1000);
+		}
+	}else if(data.operate=='status'){
+		if(msg['error']=='1'){
+			var html = dom.html();
+			if(msg.status=='0'){
+				html = html.replace("启用","停用");
+				html = html.replace("glyphicon-play","glyphicon-stop");
+			}else{
+				html = html.replace("停用","启用");
+				html = html.replace("glyphicon-stop","glyphicon-play");
+			}
+			dom.html(html);
+			dom.parents("tr").children("td.status").html(msg.status=='0'?"正常":"停用");
+
+		}
+	}else if(data.operate=='Get'){
+		if(msg['error']=='1'){
+			var dom = $("#UpdateModal .form-horizontal");
+
+			dom.find('input[type="text"],input[type="hidden"]').each(function(){
+				var name = $(this).attr("name");
+				if(name != undefined){
+					$(this).val(updata_get_data(name,msg));
+				}
+			});
+
+			/*模块勾选*/
+			GouXuan(msg.module,dom,'module');
+
+			/*功能勾选*/
+			GouXuan(msg.function,dom,'function');
+
+			$("#UpdateModal").modal('show');
+			on();
+		}
+	}else if(data.operate=='del'){
+		dom.parents("tr").hide(500);
+	}
+}
+
+/*模块勾选*/
+function GouXuan(data,dom,name){
+	dom.find('input[name="'+name+'"]').prop('checked',false);
+	dom.find('input[name="'+name+'"][value="all"]').parent().parent().find('input[name="VerifyMac"]').prop('checked',false).prop("disabled",true);
+	if(data!=null && data!=''){
+		data = JSON.parse(data);
+		if(data!=null && data.length>0){
+			for(var i=0;i<data.length;i++){
+				if(data[i][0] == 'all'){
+					dom.find('input[name="'+name+'"]').prop('checked',true);
+				}
+
+				dom.find('input[name="'+name+'"][value="'+data[i][0]+'"]').prop("checked",true);
+				dom.find('input[name="'+name+'"][value="'+data[i][0]+'"]').parent().parent().find('input[name="VerifyMac"]').prop("disabled",false);
+
+				if(data[i][1] == '1'){
+					dom.find('input[name="'+name+'"][value="'+data[i][0]+'"]').parent().parent().find('input[name="VerifyMac"]').prop("checked",true);
+				}
+			}
+		}
+	}
+}
+
+/*编辑model框获取数据*/
+function updata_get_data(name,data){
+	var val = '';
+	if(data!=null && data){
+		for(var i in data){
+			if(i == name){
+				return data[i];
+			}
+		}
+	}
+	return val;
+}
+
+/*ajax*/
+function post_data(url,data,dom,time){
+	chuli("正在处理，请稍后……");
+	time = time!=''?time:500;
+	setTimeout(function(){
+		$.ajax({
+			url: '/oa.php'+url,
+			type:"post",
+			data: data,
+			dataType:'json',
+			success: function (msg) {
+				msg_chuli(data,msg,dom);
+			},
+			error: function () {
+				chuli("");
+				toastr.error("提交数据，产生错误");
+			}
+		})
+	},time);
+}
+
+
+
+/*加载数据*/
+post_data("/"+Action+"/Page/",{"operate":'page'},'','0');
+
+/*toastr配置*/
+//toastr.options = {positionClass: "toast-top-center"};
+
+
+function get_DepartmentName(data,id){
+	var name = '';
+	if(data != null && data.length>0){
+		for(var i=0;i<data.length;i++){
+			if(data[i]['id'] == id){
+				name =  data[i]['DepartmentName'];
+			}else{
+				name = get_DepartmentName(data[i]['zi'],id);
+			}
+
+			if(name != undefined && name != ''){
+				return name;
+			}
+
+		}
+	}
+}
+
+/*生成部门select*/
+function organize_select_html(data,s){
+	var html = '';
+	if(data != null && data.length>0){
+		s = s == ''?'&nbsp':(s + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		for(var i=0;i<data.length;i++){
+
+			var zi_html = organize_select_html(data[i]['zi'],s);
+			//html += '<option value="'+data[i]['id']+'">'+s+'┣ '+data[i]['DepartmentName']+'</option>'+zi_html;
+			html += '<label class="checkbox-inline"><input type="checkbox" name="OrderLook" value="'+data[i]['id']+'"> '+data[i]['DepartmentName']+'</label>'+zi_html;
+
+		}
+	}
+	return html;
+}
+/*生成部门select*/
+var html = organize_select_html(AllDepartment,'');
+$('.OrderLook').append(html);
+
+
+/*获取订单状态值*/
+function get_OrderStatus(key){
+	var val = '';
+	if(key=='all') return '全部订单状态';
+	for(var i in OrderStatus){
+		for(var ii in OrderStatus[i]){
+			if(ii==key){
+				return OrderStatus[i][ii];
+			}
+		}
+	}
+	return val;
+}
+
+/*获取对象值*/
+function get_obj_val(obj,key){
+	var val = '';
+	if(key=='all') return '全部';
+	if(obj!=null){
+		for(var i in obj){
+			if(i==key){
+				return obj[i];
+			}
+		}
+	}
+	return val;
+}
+
+/*处理返回的data数据*/
+function show_msg(data){
+	if(data.error=='0'){
+		/*红色*/
+		toastr.error(data.msg);
+	}else if(data.error=='1'){
+		/*绿色*/
+		toastr.success(data.msg);
+	}else if(data.error=='2'){
+		/*橘黄色*/
+		toastr.warning(data.msg);
+	}else if(data.error=='4'){
+		/*浅蓝色*/
+		toastr.info(data.msg);
+	}
+}
+
+
+/*计算tab-content距离高度*/
+function js_height(){
+	var height = $(".tab .tab-header-wrap").height();
+	$(".tab .tab-content-wrap").css("padding-top",height+"px");
+}
+js_height();
+
+
+/*首行冻结*/
+$('.tab-content-main').scroll(function() {
+
+	var header_height = $(".tab .tab-header-wrap").height();
+	var thead_top = $('.tab-pane.active .tab-table tbody').prev().offset().top;
+	var scrollTop = $(this).scrollTop() || $(this).get(0).scrollTop;
+	
+	var fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	if(fixTable.length){
+		if(thead_top <= header_height){
+			fixTable.css('top',(scrollTop-(scrollTop+thead_top)+header_height)+'px');
+		}else{
+			fixTable.css('top','0px');
+		}
+	}else{
+		var table_html = $(".tab-pane.active .tab-table").attr("class");
+		var thead_html = $(".tab-pane.active .tab-table thead").html();
+		html = '<table class="'+table_html+' fixTable"><thead>'+thead_html+'</thead></table>';
+		$(".tab-pane.active .tab-pane-content .tab-table").before(html);
+		fixTable = $(".tab-pane.active .tab-pane-content .fixTable");
+	}
+});
+</script>
